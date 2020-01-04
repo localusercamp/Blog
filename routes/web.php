@@ -14,6 +14,4 @@
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/testvue', function () {
-    return view('testvue');
-});
+Route::get('/testvue', 'PostController@index');

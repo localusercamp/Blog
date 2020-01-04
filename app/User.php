@@ -36,4 +36,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function posts() // связь с таблицей post_user
+    {
+        return $this->belongsToMany('App\Post');
+    }
 }
