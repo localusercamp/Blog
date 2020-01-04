@@ -1,0 +1,19 @@
+<head>
+    <script src="https://unpkg.com/vue"></script>
+</head>
+
+<body>
+    <div id="vueinside">
+        {{ item.id }}
+    </div>
+</body>
+
+
+<script>
+    const app1 = new Vue({
+        el: '#vueinside',
+        data: {
+            item : {id : 1, name : 'Kitty'}
+        }
+    })
+</script>
