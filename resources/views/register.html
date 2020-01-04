@@ -1,0 +1,77 @@
+<head>
+    <script src="https://unpkg.com/vue"></script>
+</head>
+
+<style>
+    .plane {
+        margin: 35px 15px 25px 15px;
+    }
+    .input-f {
+        max-width: 100px;
+        float: right;
+    }
+    .regform {
+        width: 300px;
+        height: 500px;
+    }
+</style>
+
+<body>
+    <form id="register_form" @submit="validate" method="POST" class="regform">
+        <div v-if="errors.length">
+            <b>Пожалуйста исправьте указанные ошибки:</b>
+            <ul>
+                <li v-for="error in errors">{{ error }}</li>
+            </ul>
+        </div>
+        <div class="plane">
+            <label for="email">Почтовый ящик</label>
+            <input type="email" id="email" v-model="email" class="input-f">
+        </div>
+        <div class="plane">
+            <label for="password">Пароль</label>
+            <input type="password" id="password" v-model="password" class="input-f">
+        </div>
+        <input type="submit" value="Зарегистрироваться" class="plane" style="width: 100%">
+    </form>
+</body>
+
+<script>
+    const app = new Vue({
+        el: '#register_form',
+        data: {
+            errors: [],
+            email: null,
+            password: null
+        },
+        methods: {
+            validate: function(e){
+                this.errors = [];
+                
+                if(!this.email){
+                    this.errors.push("Введите Email");
+                }
+                else if(!this.validateEmail(this.email)){
+                    this.errors.push("Email введен некорректно");
+                }
+
+                if(!this.password){
+                    this.errors.push("Введите пароль");
+                }
+                else if(this.password.length < 6){
+                    this.errors.push("Пароль должен быть длиннее 6 символов");
+                }
+
+                if(!this.errors.length){
+                    return true;
+                }
+
+                e.preventDefault();
+            },
+            validateEmail: function(email){
+                var regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                return regex.test(email);
+            }
+        },
+    })
+</script>

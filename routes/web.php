@@ -14,4 +14,16 @@
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/testvue', 'PostController@index');
+
+Route::get('/register', function () { // представление регистрации пользователя
+    return view('register');
+});
+
+
+
+
+Route::get('/testvue', function () {
+    return view('testvue');
+});
+
+Route::get('/testjson', 'PostController@index');
