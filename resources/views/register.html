@@ -24,9 +24,27 @@
         max-width: 280px;
         margin: 0 auto 0 auto;
     }
+    .acceptbutton {
+        cursor:pointer;
+        border: 0;
+        outline: none;
+        border-radius: 5px;
+        font-family: Roboto;
+        font-weight: bold;
+        color: whitesmoke;
+        height: 30px;
+        background: rgb(5,166,18);
+        background: linear-gradient(0deg, rgba(5,166,18,1) 0%, rgba(0,255,8,1) 100%);
+    }
+    .fade-enter-active{ 
+        transition: opacity .5s;
+    }
+    .fade-enter, .fade-leave-to {
+        opacity: 0;
+    }
 </style>
 
-<body>
+<body style="font-family: Roboto; font-weight: bold;">
     <div class="regapp">
         <form id="register_form" @submit="validate" method="POST" class="regform">
             
@@ -40,13 +58,18 @@
                 <input type="password" id="password" v-model="password">
             </div>
 
-            <div v-if="errors.length">
-                <div v-for="error in errors">{{ error }}</div>
-            </div>
+            <transition name="fade">
+                <div class="errorholder" v-if="!noerror" style="text-align: center;">
+                    <div style="color: red;">Неверный email или пароль</div>
+                </div>
+            </transition>
 
-            <input type="submit" value="Зарегистрироваться" style="width: 100%; margin-top: 5px;">
+            <input class="acceptbutton" type="submit" value="Зарегистрироваться" style="width: 100%; margin-top: 5px;">
 
         </form>
+
+        
+        
     </div>
 </body>
 
@@ -54,32 +77,28 @@
     const app = new Vue({
         el: '#register_form',
         data: {
-            errors: [],
+            noerror: true,
             email: null,
-            password: null
+            password: ""
         },
         methods: {
             validate: function(e){
-                this.errors = [];
-                
-                if(!this.email){
-                    this.errors.push("Введите Email");
+                this.noerror = true;
+                if(
+                    !this.email || 
+                    !this.validateEmail(this.email) ||
+                    this.password == null ||
+                    this.password.length < 6 
+                    
+                ){ 
+                    this.noerror = false;
                 }
-                else if(!this.validateEmail(this.email)){
-                    this.errors.push("Email введен некорректно");
-                }
-
-                if(!this.password){
-                    this.errors.push("Введите пароль");
-                }
-                else if(this.password.length < 6){
-                    this.errors.push("Пароль должен быть длиннее 6 символов");
-                }
-
-                if(!this.errors.length){
+                else{ // если все хорошо
+                    // здесь должен быть post на добавление пользователя
+                    this.password = "";
                     return true;
                 }
-
+                
                 e.preventDefault();
             },
             validateEmail: function(email){

@@ -19,7 +19,9 @@ Route::get('/register', function () { // представление регист
     return view('register');
 });
 
-
+Route::get('/reg', function () { // представление регистрации пользователя
+    return view('reg');
+});
 
 
 Route::get('/testvue', function () {
