@@ -18,25 +18,25 @@ class LoginController extends Controller
                 'email' => $request->header('email'), 
                 'password' => $request->header('password')
             ])) {
-            return redirect()->intended('news');
+            return redirect()->intended('home');
         }
 
         return abort(404);   // Вместо этого нужно реализовать вывод надписи "неправильный пароль или мыло"  
     }
 
-    public function check()
-    {
-        if(Auth::check())
-        {
-            return response()->json([
-                'IsLoggined' => 'True'
-            ]);
-        }
-        else
-        {
-            return response()->json([
-                'IsLoggined' => 'False'
-            ]);
-        }
-    }
+    // public function check()
+    // {
+    //     if(Auth::check())
+    //     {
+    //         return response()->json([
+    //             'IsLoggined' => 'True'
+    //         ]);
+    //     }
+    //     else
+    //     {
+    //         return response()->json([
+    //             'IsLoggined' => 'False'
+    //         ]);
+    //     }
+    // }
 }

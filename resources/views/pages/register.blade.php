@@ -1,65 +1,15 @@
-<head>
-    <script src="https://unpkg.com/vue"></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-</head>
+@extends('layouts.default')
+@section('content')
 
-<style>
-    .input {
-        box-sizing: border-box;
-        display: block;
-        margin: 5px auto 15px auto;
-    }
-    .input input{
-        width: 100%;
-        margin-top: 5px;
-    }
-    .regform {
-        box-sizing: border-box;
-        margin: 0;
-    }
-    .regapp { 
-        border: solid 1px rgb(190, 190, 190);
-        border-radius: 7px;
-        padding: 10;
-        min-width: 280px;
-        max-width: 280px;
-        margin: 0 auto 0 auto;
-    }
-    .acceptbutton {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        cursor:pointer;
-        border: 0;
-        outline: none;
-        border-radius: 5px;
-        font-family: Roboto;
-        font-weight: bold;
-        color: whitesmoke;
-        height: 30px;
-        width: 100%; 
-        margin-top: 5px;
-        background: rgb(5,166,18);
-        background: linear-gradient(0deg, rgba(5,166,18,1) 0%, rgba(0,255,8,1) 100%);
-    }
-    .fade-enter-active{ 
-        transition: opacity .5s;
-    }
-    .fade-enter, .fade-leave-to {
-        opacity: 0;
-    }
-</style>
-
-<body style="font-family: Roboto; font-weight: bold;">
-    <div class="regapp">
-        <form id="register_form" method="POST" class="regform">
-            
-            <div class="input"> 
+<div class="regapp">
+    <form id="register_form" method="POST" class="regform">
+        <conteiner class="register-container">
+            <div class="input-block"> 
                 <label>Адрес электронной почты</label>
                 <input type="email" id="email" v-model="email">
             </div>
 
-            <div class="input"> 
+            <div class="input-block"> 
                 <label>Пароль</label>
                 <input type="password" id="password" v-model="password">
             </div>
@@ -71,17 +21,11 @@
             </transition>
 
             <div v-on:click="validate" class="acceptbutton">Зарегистрироваться</div>
-
-        </form>
-
-        
-        
-    </div>
-</body>
+        </conteiner>
+    </form>
+</div>
 
 <script>
-    
-
     const app = new Vue({
         el: '#register_form',
         data: {
@@ -124,3 +68,5 @@
         },
     })
 </script>
+
+@stop

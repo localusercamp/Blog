@@ -16,25 +16,25 @@ Route::get('/', function () {
 });
 
 Route::get('/register', function () { // представление регистрации пользователя
-    return view('register');
+    return View::make('pages.register');
 });
 
 Route::get('/login', function () { // представление входа пользователя
-    return view('login');
+    return View::make('pages.login');
 });
 
-Route::get('/news', function () { 
-    return view('news');
+Route::get('/home', function () { 
+    return View::make('pages.home');
 });
 
 Route::post('/login', 'LoginController@login'); // запрос на API для входа пользователя
 Route::post('/register', 'RegistrationController@create'); // запрос на API для создания нового поьзователя
 
-Route::post('/login/check', 'LoginController@check');
 
 ////////////
 Route::get('/testvue', function () {
     return view('testvue');
 });
+Route::post('/login/check', 'LoginController@check');
 
 Route::get('/testjson', 'PostController@index');
