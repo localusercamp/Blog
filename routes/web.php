@@ -19,11 +19,10 @@ Route::get('/register', function () { // представление регист
     return view('register');
 });
 
-Route::get('/reg', function () { // представление регистрации пользователя
-    return view('reg');
-});
+Route::post('/register', 'RegistrationController@create'); // запрос на API для создания нового поьзователя
 
 
+////////////
 Route::get('/testvue', function () {
     return view('testvue');
 });

@@ -1,5 +1,6 @@
 <head>
     <script src="https://unpkg.com/vue"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </head>
 
 <style>
@@ -25,6 +26,9 @@
         margin: 0 auto 0 auto;
     }
     .acceptbutton {
+        display: flex;
+        justify-content: center;
+        align-items: center;
         cursor:pointer;
         border: 0;
         outline: none;
@@ -33,6 +37,8 @@
         font-weight: bold;
         color: whitesmoke;
         height: 30px;
+        width: 100%; 
+        margin-top: 5px;
         background: rgb(5,166,18);
         background: linear-gradient(0deg, rgba(5,166,18,1) 0%, rgba(0,255,8,1) 100%);
     }
@@ -46,7 +52,7 @@
 
 <body style="font-family: Roboto; font-weight: bold;">
     <div class="regapp">
-        <form id="register_form" @submit="validate" method="POST" class="regform">
+        <form id="register_form" method="POST" class="regform">
             
             <div class="input"> 
                 <label>Адрес электронной почты</label>
@@ -64,7 +70,7 @@
                 </div>
             </transition>
 
-            <input class="acceptbutton" type="submit" value="Зарегистрироваться" style="width: 100%; margin-top: 5px;">
+            <div v-on:click="validate" class="acceptbutton">Зарегистрироваться</div>
 
         </form>
 
@@ -74,6 +80,8 @@
 </body>
 
 <script>
+    
+
     const app = new Vue({
         el: '#register_form',
         data: {
@@ -93,8 +101,16 @@
                 ){ 
                     this.noerror = false;
                 }
-                else{ // если все хорошо
-                    // здесь должен быть post на добавление пользователя
+                else{ // если валидация прошла успешно
+                    let config = {
+                        headers:{
+                            'email': this.email,
+                            'password': this.password
+                        }
+                    }
+                    axios.post('/register', null, config).then(function(response){ // post на добавление пользователя
+                        console.log(response);
+                    })
                     this.password = "";
                     return true;
                 }
