@@ -34,14 +34,5 @@ class RegistrationController extends Controller
         $user->email = $request->header('email');
         $user->password = Hash::make($request->header('password'));
         $user->save();
-
-        //$validator = RegisterController::__construct();
-        //RegisterController::validator($data);
-
-
-        return response()->json([
-            'reqs' => $request->header('email'),
-        ]);
-        //RegisterController::validator();
     }
 }
