@@ -8,20 +8,29 @@
 @include('includes.styles')
 
 <body>
-    <div class="container">
+    {{-- Настроить навбарыч, он прозрачный если что почему то --}}
+    <div class="row" style="height:100px">
+        @include('includes.header')
+    </div>
+    {{--  --}}
 
-        <header class="row">
-            @include('includes.header')
-        </header>
+    <div class="col-sm-1 layout-borders">
 
+    </div>
+
+    <div class="col-sm-10">
+        
         <div id="main" class="row">
             @yield('content')
         </div>
+    </div>
 
-        
-        @include('includes.footer')
+    <div class="col-sm-1 layout-borders">
 
     </div>
+
+    {{-- @include('includes.footer') Пока что убран --}}
+
 </body>
 
 </html>

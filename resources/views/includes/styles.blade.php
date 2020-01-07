@@ -51,14 +51,25 @@
  
 /*---FOOTER---*/
 
-    #page-content {
-        flex: 1 0 auto;
+    .footer {
+        bottom: 0;
+        position: absolute;
+        height: 100px;
+        width: 100%;
+    }
+    .footer .footer-content {
+        vertical-align: middle;
     }
 
-    #sticky-footer {
-        flex-shrink: none;
-    }
+/*------------*/
 
+/*---LAYOUT---*/
+
+    .layout-borders{
+        background-color: #EEAA7B;
+        height: 100%;
+    }
+    
 /*------------*/
 
 </style>
