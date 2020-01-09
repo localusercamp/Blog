@@ -7,6 +7,7 @@ use App\Http\Controllers\RegisterController;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use App\User;
+use App\Role;
 
 class RegistrationController extends Controller
 {
@@ -30,7 +31,10 @@ class RegistrationController extends Controller
             return abort(404);     // КОСТЫЛЬ: при вводе мыла котрое уже есть выкнет 404 (и то вряд ли, скорее всего просто сломается)
         }
 
+        $role = Role::where('name', 'blogger')->first();
+        
         $user = new User();
+        $user->role()->associate($role);
         $user->email = $request->header('email');
         $user->password = Hash::make($request->header('password'));
         $user->save();

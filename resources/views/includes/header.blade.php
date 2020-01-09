@@ -2,11 +2,11 @@
 
   <nav class="navbar navbar-expand-lg bg-dark navbar-dark fixed-top">
     
-    <a class="navbar-brand mr-auto">ВБлоге</a>
+    <a class="navbar-brand mr-auto header-title" v-on:click="goHome">ВБлоге</a>
     
-    <a class="navbar-brand"> @{{ user_email }} </a>
-    <a v-if="islogged" class="navbar-brand" v-on:click="logout">Выйти</a>
-    <a v-else class="navbar-brand">Войти</a>
+    <a v-if="islogged" class="navbar-brand header-link" v-on:click="showUser"> @{{ user_email }} </a>
+    <a v-if="islogged" class="navbar-brand header-link" v-on:click="logout">Выйти</a>
+    <a v-else class="navbar-brand header-link" v-on:click="login">Войти</a>
 
     <!-- Links -->
     {{-- <ul class="navbar-nav">
@@ -34,14 +34,24 @@
       methods: {
         checkIsLogged: function(){
           axios.post('/check-if-logged').then(function(response){ // проверка залогинен ли пользователь
-              if(response.data.IsLogged == 'True'){
+              console.log(response);
+              if(response.data.IsLogged == true){
                 navbarVue.islogged = true;
                 navbarVue.user_email = response.data.email;
               }
           });
         },
         logout: function(){
-          axios.post('/logout');
+          axios.post('/logout').then(window.location.href = '/login');
+        },
+        login: function(){
+          window.location.href = '/login';
+        },
+        showUser: function(){
+          //get на страничку юзера
+        },
+        goHome: function(){
+          window.location.href = '/home';
         }
       },
       beforeMount() {

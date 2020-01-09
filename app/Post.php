@@ -13,6 +13,11 @@ class Post extends Model
         return $this->belongsTo('App\User');
     }
 
+    public function category()
+    {
+        return $this->belongsTo('App\Category');
+    }
+
     public function users() // связь с таблицей post_user
     {
         return $this->belongsToMany('App\User');

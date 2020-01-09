@@ -16,7 +16,7 @@
                 </div>
         
                 <transition name="fade">
-                    <div class="errorholder" v-if="!noerror" style="text-align: center;">
+                    <div class="errorholder" v-if="!noerror">
                         <div style="color: red;">Неверный email или пароль</div>
                     </div>
                 </transition>
@@ -54,9 +54,16 @@
                             'password': this.password
                         }
                     };
-                    axios.post('/login', null, config).then(function(response){ // post на добавление пользователя
-                        console.log(response);
-                    });
+                    axios.post('/login', null, config).then(()=>{}).then(()=>{
+                        axios.post('/check-if-logged').then((secondPost) => {
+                            if(secondPost.data.IsLogged == true){
+                                window.location.href = '/home';
+                            }
+                            else{
+                                app.noerror = false;
+                            }
+                        })
+                    })
                     this.password = "";
                     return true;
                 }

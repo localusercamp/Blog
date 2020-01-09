@@ -28,18 +28,18 @@ class LoginController extends Controller
         return; 
     }
 
-    public function check() // проверяет авторизирован пользователь или нет
+    public function check() // проверяет авторизирован пользователь или нет и возвращает email
     {
         if(Auth::check())
         {
             return response()->json([
-                'IsLogged' => 'True',
+                'IsLogged' => true,
                 'email' => Auth::getUser()->email
             ]);
         }
 
         return response()->json([
-            'IsLogged' => 'False'
+            'IsLogged' => false
         ]);
     }
 }

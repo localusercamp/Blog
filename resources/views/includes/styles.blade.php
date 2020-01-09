@@ -1,4 +1,9 @@
 <style>
+    .errorholder {
+        text-align: center;
+        font-size: 15px;
+        margin-bottom: 20px;
+    }
     .login-container, .register-container {
         display: block;
         padding: 20px 20px 20px 20px;
@@ -82,14 +87,64 @@
 /*---HEADER---*/
     
     .navbar {
-        height: 10%;
         background-color: black;
         border-radius: 0px;
-        padding-left: 25%;
-        padding-right: 25%;
+        padding: 0 25% 0 25%;
+    }
+    .header-link {
+        font-family: Roboto;
+        font-size: 15px;
+        font-weight: bold;
+        user-select: none;
+        cursor: pointer;
+    }
+    .header-link:hover {
+        background-color:darkgray;
+    }
+    .header-title {
+        cursor: pointer;
+        font-family: Roboto;
+        font-size: 25px;
+        font-weight: bold;
+        user-select: none;
     }
 
 /*------------*/
+
+/*---ADMIN---*/
+
+.sidebar {
+    background-color: #343a40;
+}
+.sidebar-item {
+    font-family: Roboto;
+    font-weight: bold;
+    font-size: 30px;
+    color: white;
+    cursor: pointer;
+    align-self: center;
+    align-items: center;
+}
+.sidebar div:hover {
+    background-color: #454e54;
+}
+.no-mg {
+    margin:0;
+}
+
+/*-----------*/
+
+/*---HOME---*/
+
+.category-holder {
+    border: solid 2px;
+    margin-top:10%;
+}
+.category-button {
+    display: inline block;
+}
+
+/*----------*/
 
 
 </style>

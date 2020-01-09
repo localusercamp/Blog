@@ -18,7 +18,7 @@ class CreatePostsTable extends Migration
             $table->string('title');
             $table->mediumText('text');
             $table->string('category');
-
+            $table->integer('category_id')->unsigned();
             $table->integer('user_id')->unsigned(); // автор
             $table->timestamps();
         });
