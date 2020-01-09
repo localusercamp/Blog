@@ -25,16 +25,20 @@ Route::get('/login', function () { // представление входа по
 
 Route::get('/home', function () { 
     return View::make('pages.home');
-});
+})->name("myhome");
 
-Route::post('/login', 'LoginController@login'); // запрос на API для входа пользователя
-Route::post('/register', 'RegistrationController@create'); // запрос на API для создания нового поьзователя
-
+Route::post('/login', 'LoginController@login');
+Route::post('/register', 'RegistrationController@create');
+Route::post('/check-if-logged', 'LoginController@check');
+Route::post('/logout', 'LoginController@logout');
 
 ////////////
-Route::get('/testvue', function () {
-    return view('testvue');
-});
-Route::post('/login/check', 'LoginController@check');
+// Route::get('/testvue', function () {
+//     return view('testvue');
+// });
 
-Route::get('/testjson', 'PostController@index');
+// Route::get('/testjson', 'PostController@index');
+
+// Route::get('/tohome', function () { 
+//     return Redirect::to("/home");
+// });

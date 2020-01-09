@@ -1,38 +1,53 @@
-<header>
+<header id="navigationbar">
 
-    <nav class="navbar fixed-top navbar-expand-lg navbar-dark pink scrolling-navbar">
-      <a class="navbar-brand" href="#"><strong>Navbar</strong></a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Features</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Pricing</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Opinions</a>
-          </li>
-        </ul>
-        <ul class="navbar-nav nav-flex-icons">
-          <li class="nav-item">
-            <a class="nav-link"><i class="fab fa-facebook-f"></i></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link"><i class="fab fa-twitter"></i></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link"><i class="fab fa-instagram"></i></a>
-          </li>
-        </ul>
-      </div>
-    </nav>
+  <nav class="navbar navbar-expand-lg bg-dark navbar-dark fixed-top">
+    
+    <a class="navbar-brand mr-auto">ВБлоге</a>
+    
+    <a class="navbar-brand"> @{{ user_email }} </a>
+    <a v-if="islogged" class="navbar-brand" v-on:click="logout">Выйти</a>
+    <a v-else class="navbar-brand">Войти</a>
+
+    <!-- Links -->
+    {{-- <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="#">Link 1</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Link 2</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Link 3</a>
+      </li>
+    </ul> --}}
+  </nav>
   
-  </header>
+</header>
+
+<script>
+  const navbarVue = new Vue({
+      el: '#navigationbar',
+      data: {
+        islogged: false,
+        user_email: null
+      },
+      methods: {
+        checkIsLogged: function(){
+          axios.post('/check-if-logged').then(function(response){ // проверка залогинен ли пользователь
+              if(response.data.IsLogged == 'True'){
+                navbarVue.islogged = true;
+                navbarVue.user_email = response.data.email;
+              }
+          });
+        },
+        logout: function(){
+          axios.post('/logout');
+        }
+      },
+      beforeMount() {
+        this.checkIsLogged();
+      }
+  });
+</script>
+
+

@@ -3,29 +3,24 @@
 
 <head>
     @include('includes.head')
+    
 </head>
 
 @include('includes.styles')
 
-<body>
-    {{-- Настроить навбарыч, он прозрачный если что почему то --}}
-    <div class="row" style="height:100px">
-        @include('includes.header')
-    </div>
-    {{--  --}}
+<body class="layout-body">
 
-    <div class="col-sm-1 layout-borders">
+    @include('includes.header')
+
+    <div class="col-sm-3 btstrp-col">
 
     </div>
 
-    <div class="col-sm-10">
-        
-        <div id="main" class="row">
-            @yield('content')
-        </div>
+    <div class="col-sm-6 btstrp-col">
+        @yield('content')
     </div>
 
-    <div class="col-sm-1 layout-borders">
+    <div class="col-sm-3 btstrp-col">
 
     </div>
 

@@ -1,14 +1,13 @@
 <style>
-    html, body {
-        margin: 0;
-        height: 100%;
-    }
     .login-container, .register-container {
         display: block;
-        margin: 0px 20px 20px 20px;
+        padding: 20px 20px 20px 20px;
+        border: solid 1px rgb(190, 190, 190);
+        border-radius: 7px;
     }
     .input-block {
-        margin-top: 20px;
+        margin-bottom: 20px;
+        font-size: 15px;
     }
     .login-container input, .register-container input {
         width: 100%;
@@ -17,13 +16,15 @@
         box-sizing: border-box;
         margin: 0;
     }
-    .regapp { 
-        border: solid 1px rgb(190, 190, 190);
-        border-radius: 7px;
-        padding: 10;
+    .reg-log-app { 
+        
         min-width: 280px;
         max-width: 280px;
-        margin: 0 auto 0 auto;
+        max-height: 220px;
+        margin: auto;
+    }
+    .reg-log-container {
+        height: 100%;
     }
     .acceptbutton {
         display: flex;
@@ -35,10 +36,10 @@
         border-radius: 5px;
         font-family: Roboto;
         font-weight: bold;
+        font-size: 15px;
         color: whitesmoke;
         height: 30px;
         width: 100%; 
-        margin-top: 20px;
         background: rgb(5,166,18);
         background: linear-gradient(0deg, rgba(5,166,18,1) 0%, rgba(0,255,8,1) 100%);
     }
@@ -65,11 +66,30 @@
 
 /*---LAYOUT---*/
 
-    .layout-borders{
-        background-color: #EEAA7B;
+    html, body {
+        margin: 0;
+        height: 100%;
+    }
+    .layout-body {
+        background-color: #edeef0;
+    }
+    .btstrp-col {
         height: 100%;
     }
     
 /*------------*/
+
+/*---HEADER---*/
+    
+    .navbar {
+        height: 10%;
+        background-color: black;
+        border-radius: 0px;
+        padding-left: 25%;
+        padding-right: 25%;
+    }
+
+/*------------*/
+
 
 </style>

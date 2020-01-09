@@ -4,39 +4,42 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 
 class LoginController extends Controller
 {
     public function login(Request $request)
     {
-        $data = [
-            'email' => $request->header('email'),
-            'password' => $request->header('password')
-        ];
-
         if (Auth::attempt([
                 'email' => $request->header('email'), 
                 'password' => $request->header('password')
             ])) {
-            return redirect()->intended('home');
+            return;
         }
-
-        return abort(404);   // Вместо этого нужно реализовать вывод надписи "неправильный пароль или мыло"  
+        return;   // Вместо этого нужно реализовать вывод надписи "неправильный пароль или мыло"  
     }
 
-    // public function check()
-    // {
-    //     if(Auth::check())
-    //     {
-    //         return response()->json([
-    //             'IsLoggined' => 'True'
-    //         ]);
-    //     }
-    //     else
-    //     {
-    //         return response()->json([
-    //             'IsLoggined' => 'False'
-    //         ]);
-    //     }
-    // }
+    public function logout(Request $request)
+    {
+        if(Auth::check())
+        {
+            Auth::logout();
+        }
+        return; 
+    }
+
+    public function check() // проверяет авторизирован пользователь или нет
+    {
+        if(Auth::check())
+        {
+            return response()->json([
+                'IsLogged' => 'True',
+                'email' => Auth::getUser()->email
+            ]);
+        }
+
+        return response()->json([
+            'IsLogged' => 'False'
+        ]);
+    }
 }
