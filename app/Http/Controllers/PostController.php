@@ -42,7 +42,7 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $choosenCategory = $request->header('category');
-        $choosenCategory = Category::where('name', $choosenCategory);
+        $choosenCategory = Category::where('name', $choosenCategory)->first();
         if(!$choosenCategory){
             return;
         }

@@ -58,7 +58,7 @@
             createPost: function(){
                 this.$refs['category'].forEach(function(item){
                     if(item.selected){
-                        createPost.choosenCategory = item.text;
+                        this.choosenCategory = item.text;
                     }
                 });
                 let config = {
@@ -71,18 +71,13 @@
                 axios.post('/post/store', null, config);
             },
             validate: function(){
-                // if(this.categoryName.length > 0){
-                //     let config = {
-                //         headers:{
-                //             'name': this.categoryName
-                //         }
-                //     }
-                //     axios.post('/category/store', null, config);
-                //     return true;
-                // }
-                // else{
-                //     this.noerror = false;
-                // }
+                if(createPost.title.length > 0 && createPost.text.length > 0){
+                    this.createPost();
+                    return true;
+                }
+                else{
+                    this.noerror = false;
+                }
             }
         },
         beforeMount(){
