@@ -9,6 +9,7 @@
         padding: 20px 20px 20px 20px;
         border: solid 1px rgb(190, 190, 190);
         border-radius: 7px;
+        background-color: #d9d9d9;
     }
     .input-block {
         margin-bottom: 20px;
@@ -21,8 +22,20 @@
         box-sizing: border-box;
         margin: 0;
     }
+    .create-post-app { 
+        min-width: 500px;
+        max-width: 500px;
+        max-height: 400px;
+        margin: auto;
+    }
+    .textarea-post {
+        width: 100%;
+        min-height: 200px;
+    }
+    .textarea-block {
+        font-size: 15px;
+    }
     .reg-log-app { 
-        
         min-width: 280px;
         max-width: 280px;
         max-height: 220px;
@@ -137,11 +150,33 @@
 /*---HOME---*/
 
 .category-holder {
-    border: solid 2px;
-    margin-top:10%;
+    display: inline-block;
+    padding: 10px 20px 10px 0px;
+    border: solid 1px #dedede;
+    border-radius: 7px;
+    margin-top: 10%;
+    background-color: #fff;
 }
 .category-button {
-    display: inline block;
+    padding: 3px 10px 0 10px;
+    display: inline-block;
+    justify-content: center;
+    align-items: center;
+    cursor:pointer;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    font-family: Roboto;
+    font-weight: bold;
+    font-size: 15px;
+    color: #a7a7a8;
+    height: 30px;
+    width: auto; 
+    background-color: #fff;
+    margin-left: 20px;
+}
+.category-button:hover {
+    background-color: #e0e0e0;
 }
 
 /*----------*/

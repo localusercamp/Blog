@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Category;
+use App\Post;
+use App\User;
 
 class PostController extends Controller
 {
@@ -26,7 +30,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return view("pages.post.create");
     }
 
     /**
@@ -37,7 +41,18 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $choosenCategory = $request->header('category');
+        $choosenCategory = Category::where('name', $choosenCategory);
+        if(!$choosenCategory){
+            return;
+        }
+        $user = Auth::user();
+        $post = new Post();
+        $post->user()->associate($user);
+        $post->category()->associate($choosenCategory);
+        $post->title = $request->header('title');
+        $post->text = $request->header('text');
+        $post->save();
     }
 
     /**
@@ -84,4 +99,18 @@ class PostController extends Controller
     {
         //
     }
+
+    public function postsOfCategory(Request $request)
+    {
+        $choosenCategory = $request->header('category');
+        $categories = Category::all();
+        foreach($categories as $category){
+            if($choosenCategory === $category->name){
+                $posts = Post::where('category_id', $category->id);
+                return response()->json([
+                    'posts' => $posts
+                ]);
+            }
+        }
+    }    
 }
