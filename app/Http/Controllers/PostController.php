@@ -106,11 +106,61 @@ class PostController extends Controller
         $categories = Category::all();
         foreach($categories as $category){
             if($choosenCategory === $category->name){
-                $posts = Post::where('category_id', $category->id);
+                $posts = Post::where('category_id', $category->id)->get();
                 return response()->json([
                     'posts' => $posts
                 ]);
             }
         }
-    }    
+    }   
+    public function allPostsFilter(Request $request)
+    {
+        $posts;
+        if($request->header('filter') === 'date'){
+            $posts = Post::with('user','users')->withCount('users')->get()->sortBy('created_at');
+        }
+        else if($request->header('filter') === 'like'){
+            $posts = Post::with('user', 'users')->withCount('users')->get();
+            $posts = $posts->sortBy(function($post){
+                return $post->users_count;
+            });
+        }
+        return response()->json([
+            'posts' => $posts
+        ]);
+    }
+    ////////
+
+
+
+    public function posts(Request $request)
+    {
+        $posts;
+        if($request->header('filter') === 'date'){
+            $posts = Post::with('user','users')->withCount('users')->get()->sortBy('created_at');
+        }
+        else if($request->header('filter') === 'like'){
+            $posts = Post::with('user', 'users')->withCount('users')->get();
+            $posts = $posts->sortBy(function($post){
+                return $post->users_count;
+            });
+        }
+        return response()->json([
+            'posts' => $posts
+        ]);
+    }
+    public function byFilter($querry, $filter)
+    {
+        switch($filter){
+            case 'like':
+                $querry = $querry
+                ->withCount('users')
+                ->sortBy('users_count');
+                break;
+
+            default:
+            $querry = $querry->sortBy('created_at');
+        
+        }
+    }
 }

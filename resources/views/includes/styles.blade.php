@@ -169,7 +169,7 @@
     font-family: Roboto;
     font-weight: bold;
     font-size: 15px;
-    color: #a7a7a8;
+    color: rgb(52, 58, 64);
     height: 30px;
     width: auto; 
     background-color: #fff;
@@ -178,6 +178,56 @@
 .category-button:hover {
     background-color: #e0e0e0;
 }
+.posts-holder {
+    margin-top: 1.5%;
+}
+.like-container {
+    display: inline-block;
+    user-select: none;
+}
+.like-icon {
+    display: inline-block;
+    font-size: 15px;
+    user-select: none;
+}
+.like-number {
+    display: inline-block;
+    font-size: 15px;
+    user-select: none;
+}
+.post-user-email {
+    display: inline-block;
+    font-family: Roboto;
+    font-size: 15px;
+    margin: 0 10px 0 0;
+}
+.post-title {
+    display: inline-block;
+    margin: 0 10px 0 0;
+    font-family: Roboto;
+    font-weight: bold;
+    font-size: 15px;
+    user-select: none;
+}
+.border-block {
+    border: solid 1px #dedede;
+    border-radius: 15px;
+    padding: 2px 10px 2px 10px;
+    color: rgb(52, 58, 64);
+    cursor: pointer;
+}
+.border-block:hover {
+    background-color: #e0e0e0;
+}
+.post-container {
+    border: solid 1px #dedede;
+    border-radius: 15px;
+    margin-bottom: 10px;
+    padding: 10px 15px 10px 15px;;
+    display: inline-block;
+    background-color: #fff;
+}
+
 
 /*----------*/
 

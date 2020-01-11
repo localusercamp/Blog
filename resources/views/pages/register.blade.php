@@ -55,7 +55,6 @@
                         }
                     }
                     axios.post('/register', null, config).then(function(response){ // post на добавление пользователя
-                        console.log(response);
                     })
                     this.password = "";
                     return true;
