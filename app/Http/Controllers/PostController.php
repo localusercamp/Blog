@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Category;
 use App\Post;
 use App\User;
+use Debugbar;
 
 class PostController extends Controller
 {
@@ -129,38 +130,46 @@ class PostController extends Controller
             'posts' => $posts
         ]);
     }
-    ////////
-
+    //////// bad down
 
 
     public function posts(Request $request)
     {
-        $posts;
-        if($request->header('filter') === 'date'){
-            $posts = Post::with('user','users')->withCount('users')->get()->sortBy('created_at');
+        $posts = Post::with('user','users')->withCount('users');
+
+        if($request->header('filter')){
+            $posts = $this::byFilter($posts, $request->header('filter'));
         }
-        else if($request->header('filter') === 'like'){
-            $posts = Post::with('user', 'users')->withCount('users')->get();
-            $posts = $posts->sortBy(function($post){
-                return $post->users_count;
-            });
+        if($request->header('category')){
+            $posts = $this::byCategory($posts, $request->header('category'));
         }
+
+        $posts->get();
+
         return response()->json([
             'posts' => $posts
         ]);
     }
+    
+
     public function byFilter($querry, $filter)
     {
-        switch($filter){
-            case 'like':
-                $querry = $querry
-                ->withCount('users')
-                ->sortBy('users_count');
-                break;
-
-            default:
-            $querry = $querry->sortBy('created_at');
-        
-        }
+        // $querry = $querry->first();
+        // switch($filter){
+        //     case 'like':
+        //         $querry = $querry->sortByDesc('users_count');
+        //     default:
+        //         $querry = $querry->sortByDesc('created_at');
+        // }
+        return $newquerry;
     }
+    
+    public function byCategory($querry, $category)
+    {
+        $category = Category::where('name', $category)->firstOrFail();
+        $querry = $querry->where('category_id', $category->id);
+        return $querry;
+    }
+
+    
 }
