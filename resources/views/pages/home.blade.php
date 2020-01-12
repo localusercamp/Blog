@@ -9,11 +9,11 @@
 
 <div class="text-center">
     <div id="posts-container" class="posts-holder">
-        <div v-for="item in posts" :id="item.id">
+        <div v-for="(item, index) in posts" :id="item.id">
             <div class="post-container">
                 <p class="post-title border-block"> @{{item.title}} </p>
                 <p class="post-user-email border-block"> @{{item.user.email}} </p>
-                <div class="like-container border-block">
+                <div :id="'like'+item.id" class="like-container border-block" v-on:click="toggleLike($event, index)">
                     <i class="like-icon fas fa-heart"></i>
                     <div class="like-number"> @{{item.users_count}} </div>
                 </div>
@@ -41,7 +41,7 @@
                         'category': category
                     }
                 };
-                axios.post('/api/posts-of-category', null, config).then(function(response){
+                axios.post('/api/posts-by-filter-category', null, config).then(function(response){
                     postsLoadApp.posts = response.data.posts;
                 });
             }
@@ -67,10 +67,42 @@ const postsLoadApp = new Vue({
                     "filter": this.filter
                 }
             }
-            axios.post("/api/all-posts-by-filter", null, config).then(function(response){
+            axios.post("/api/posts-by-filter", null, config).then(function(response){
                 console.log(response);
                 postsLoadApp.posts = response.data.posts;
             });
+        },
+        toggleLike: function(event, index){
+            let config = {
+                headers: {
+                    'postId': event.currentTarget.id.split('like')[1]
+                }
+            }
+            axios.post('/api/like', null, config).then(function(response){
+                switch(response.data.answer){
+                    case 'wasLiked':
+                        event.target.classList.toggle('red-like');
+                        postsLoadApp.posts[index].users_count -= 1;
+                        break;
+                    case 'wasntLiked':
+                        event.target.classList.toggle('red-like');
+                        postsLoadApp.posts[index].users_count += 1;
+                        break;
+                    case 'noLogin':
+                    
+                        break;
+                }
+            });
+            // if($(event.target).css('color', 'red') == 'red'){
+            //     $(event.currentTarget).css('color','blue');
+            //     $event.target.classList.push('default-like')
+            //     alert("here");
+            // }
+            // else{
+            //     $(event.currentTarget).css('color','red');
+                
+            // }
+            
         }
     },
     beforeMount() {

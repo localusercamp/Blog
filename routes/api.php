@@ -18,8 +18,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::post('/categories-list', 'CategoryController@allCategories');
-Route::post('/posts-of-category', 'PostController@posts');
-Route::post('/all-posts-by-filter', 'PostController@posts');
+Route::post('/posts-by-filter-category', 'PostController@postsBy');
+Route::post('/posts-by-filter', 'PostController@postsBy');
+Route::post('/like', 'PostController@like');
+
 
 
 

@@ -213,7 +213,7 @@
     border: solid 1px #dedede;
     border-radius: 15px;
     padding: 2px 10px 2px 10px;
-    color: rgb(52, 58, 64);
+    color: #343a40;
     cursor: pointer;
 }
 .border-block:hover {
@@ -227,7 +227,9 @@
     display: inline-block;
     background-color: #fff;
 }
-
+.red-like {
+    color: red;
+}
 
 /*----------*/
 
