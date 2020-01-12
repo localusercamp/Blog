@@ -79,6 +79,7 @@ const postsLoadApp = new Vue({
                 }
             }
             axios.post('/api/like', null, config).then(function(response){
+                console.log(response);
                 switch(response.data.answer){
                     case 'wasLiked':
                         event.target.classList.toggle('red-like');

@@ -143,16 +143,9 @@ class PostController extends Controller
                     'answer' => 'wasLiked'
                 ]);
             }
-            // Проверка на то был ли пост уже лайкнут пользователем
-            // foreach($post->users()->get() as $user){
-            //     if($user->id === Auth::user()->id){
-
-                    
-            //     }
-            // }
             
-            // $post->users()->attach(Auth::user()->get());
-            // $post->save();
+            $post->users()->attach(Auth::user());
+            $post->save();
 
             return response()->json([
                 'answer' => 'wasntLiked'
