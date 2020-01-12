@@ -39,11 +39,11 @@ class User extends Authenticatable
 
     public function posts() // связь с таблицей post_user
     {
-        return $this->belongsToMany('App\Post');
+        return $this->belongsToMany('App\Post', 'post_users', 'user_id', 'post_id'); 
     }
 
     public function role()
     {
-        return $this->belongsTo('App\Role');
+    return $this->belongsTo('App\Role');
     }
 }

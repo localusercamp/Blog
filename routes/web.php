@@ -41,7 +41,7 @@ Route::post('/category/store', 'CategoryController@store');
 Route::get('/post/create', 'PostController@create');
 Route::post('/post/store', 'PostController@store');
 
-
+Route::post('/api/like', 'PostController@like');
 
 ////////////
 

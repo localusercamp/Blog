@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePostUserTable extends Migration
+class CreatePostUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreatePostUserTable extends Migration
      */
     public function up()
     {
-        Schema::create('post_user', function (Blueprint $table) {
+        Schema::create('post_users', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('post_id');
             $table->integer('user_id');
@@ -28,6 +28,6 @@ class CreatePostUserTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('post_user');
+        Schema::dropIfExists('post_users');
     }
 }

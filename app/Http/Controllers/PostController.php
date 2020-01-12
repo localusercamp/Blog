@@ -138,16 +138,25 @@ class PostController extends Controller
         if(Auth::check()){
             $post = Post::find((int)($request->header('postId')));
 
-            foreach($post->users() as $user){
-                if($user->id === Auth::user()->id){
-                    return response()->json([
-                        'answer' => 'wasLiked'
-                    ]);
-                }
+            if($post->users()->where('user_id', Auth::user()->id)->detach()){
+                return response()->json([
+                    'answer' => 'wasLiked'
+                ]);
             }
+            // Проверка на то был ли пост уже лайкнут пользователем
+            // foreach($post->users()->get() as $user){
+            //     if($user->id === Auth::user()->id){
+
+                    
+            //     }
+            // }
             
-            $post->users()->attach(Auth::user()->get());
-            $post->save();
+            // $post->users()->attach(Auth::user()->get());
+            // $post->save();
+
+            return response()->json([
+                'answer' => 'wasntLiked'
+            ]);
         }
         return response()->json([
             'answer' => 'noLogin'

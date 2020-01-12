@@ -18,6 +18,6 @@ class Post extends Model
 
     public function users() // связь с таблицей post_user
     {
-        return $this->belongsToMany('App\User');
+    return $this->belongsToMany('App\User', 'post_users', 'post_id', 'user_id');
     }
 }
