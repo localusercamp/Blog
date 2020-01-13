@@ -43,6 +43,9 @@ Route::post('/post/store', 'PostController@store');
 
 Route::post('/like', 'PostController@like');
 
+//api
+Route::post('/api/posts-by-filter-category', 'PostController@postsBy');
+Route::post('/api/posts-by-filter', 'PostController@postsBy');
 
 ////////////
 

@@ -105,15 +105,31 @@ class PostController extends Controller
     {
         $posts = Post::with('user','users')->withCount('users')->get();
 
+        // $posts->find(2)->first_name = "some"; 
+
         if($request->header('filter'))
             $this::byFilter($posts, $request->header('filter'));
         
         if($request->header('category'))
             $this::byCategory($posts, $request->header('category'));
         
+        if(Auth::check())
+            $this::isLiked($posts, Auth::user());
+
         return response()->json([
             'posts' => $posts
         ]);
+    }
+
+    public function isLiked(&$posts, $user)
+    {
+        foreach($posts as &$post){
+            if($post->users()->get()->contains($user))
+                $post->liked = true;
+            else
+                $post->liked = false;
+        }
+        unset($post);
     }
     
     public function byFilter(&$posts, $filter)
@@ -154,5 +170,7 @@ class PostController extends Controller
             'answer' => 'noLogin'
         ]);
     }
+
+    
     
 }
