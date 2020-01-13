@@ -73,20 +73,23 @@ const postsLoadApp = new Vue({
             });
         },
         toggleLike: function(event, index){
+            let postId = event.currentTarget.id.split('like')[1];
+            let clickedElement = document.getElementById("like" + postId);
+
             let config = {
                 headers: {
-                    'postId': event.currentTarget.id.split('like')[1]
+                    'postId': postId
                 }
             }
-            axios.post('/api/like', null, config).then(function(response){
-                console.log(response);
+
+            axios.post('/like', null, config).then(function(response){
                 switch(response.data.answer){
                     case 'wasLiked':
-                        event.target.classList.toggle('red-like');
+                        clickedElement.classList.toggle('red-like');
                         postsLoadApp.posts[index].users_count -= 1;
                         break;
                     case 'wasntLiked':
-                        event.target.classList.toggle('red-like');
+                        clickedElement.classList.toggle('red-like');
                         postsLoadApp.posts[index].users_count += 1;
                         break;
                     case 'noLogin':

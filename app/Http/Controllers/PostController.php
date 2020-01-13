@@ -105,32 +105,31 @@ class PostController extends Controller
     {
         $posts = Post::with('user','users')->withCount('users')->get();
 
-        if($request->header('filter')){
+        if($request->header('filter'))
             $this::byFilter($posts, $request->header('filter'));
-        }
-        if($request->header('category')){
+        
+        if($request->header('category'))
             $this::byCategory($posts, $request->header('category'));
-        }
-
+        
         return response()->json([
             'posts' => $posts
         ]);
     }
     
-    public function byFilter(&$querry, $filter)
+    public function byFilter(&$posts, $filter)
     {
         switch($filter){
             case 'like':
-                $querry = $querry->sortByDesc('users_count');
+                $posts = $posts->sortByDesc('users_count');
             default:
-                $querry = $querry->sortByDesc('created_at');
+                $posts = $posts->sortByDesc('created_at');
         }
     }
     
-    public function byCategory(&$querry, $category)
+    public function byCategory(&$posts, $category)
     {
         $category = Category::where('name', $category)->firstOrFail();
-        $querry = $querry->where('category_id', $category->id);
+        $posts = $posts->where('category_id', $category->id);
     }
 
     public function like(Request $request)
@@ -138,7 +137,7 @@ class PostController extends Controller
         if(Auth::check()){
             $post = Post::find((int)($request->header('postId')));
 
-            if($post->users()->where('user_id', Auth::user()->id)->detach()){
+            if($post->users()->where('user_id', Auth::user()->id)->detach(Auth::user())){
                 return response()->json([
                     'answer' => 'wasLiked'
                 ]);
