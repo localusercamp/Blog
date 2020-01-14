@@ -209,6 +209,13 @@
     font-size: 15px;
     user-select: none;
 }
+.post-title-lg {
+    margin: 0 0 10px 0;
+    font-family: Roboto;
+    font-weight: bold;
+    font-size: 15px;
+    user-select: none;
+}
 .border-block {
     border: solid 1px #dedede;
     border-radius: 15px;
@@ -229,6 +236,19 @@
 }
 .red-like {
     color: red;
+}
+.popup-span {
+    width: 150px;
+    height: 50px;
+    background-color: black;
+    margin: 0 0 20px 30px;
+    padding: 0 0 0 10px;
+    position: absolute;
+}
+.pop {
+    background-color: red;
+    height: 3px;
+    width: 4px;
 }
 
 /*----------*/

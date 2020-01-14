@@ -21,8 +21,8 @@ class Post extends Model
         return $this->belongsToMany('App\User', 'post_users', 'post_id', 'user_id');
     }
 
-    public function setFirstNameAttribute($value)
+    public function setLikedAttribute($value)
     {
-        $this->attributes['liked'] = strtolower($value);
+        $this->attributes['liked'] = $value;
     }
 }

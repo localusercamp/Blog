@@ -11,9 +11,9 @@
     <div id="posts-container" class="posts-holder">
         <div v-for="(item, index) in posts" :id="item.id">
             <div class="post-container">
-                <p class="post-title border-block"> @{{item.title}} </p>
+                <p :class="{'post-title-lg' : item.title.length > 17, 'post-title' : item.title.length <= 17}" class="border-block"> @{{item.title}} </p>
                 <p class="post-user-email border-block"> @{{item.user.email}} </p>
-                <div :id="'like'+item.id" class="like-container border-block" v-on:click="toggleLike($event, index)">
+                <div :id="'like'+item.id" :class="{'red-like' : item.liked}" class="like-container border-block" v-on:click="toggleLike($event, index)">
                     <i class="like-icon fas fa-heart"></i>
                     <div class="like-number"> @{{item.users_count}} </div>
                 </div>
@@ -21,39 +21,39 @@
         </div>
     </div>
 </div>
+
 <script>
-    const categoryApp = new Vue({
-        el: "#category-holder",
-        data: {
-            categories: [],
-            choosen: "",
-            posts: []
+const categoryApp = new Vue({
+    el: "#category-holder",
+    data: {
+        categories: [],
+        choosen: "",
+        posts: []
+    },
+    methods:{
+        loadCategories: function(){
+            axios.post('/api/categories-list').then(function(response){
+                categoryApp.categories = response.data.categories;
+            });
         },
-        methods:{
-            loadCategories: function(){
-                axios.post('/api/categories-list').then(function(response){
-                    categoryApp.categories = response.data.categories;
-                });
-            },
-            call: function(category){
-                let config = {
-                    headers: {
-                        'category': category
-                    }
-                };
-                axios.post('/api/posts-by-filter-category', null, config).then(function(response){
-                    postsLoadApp.posts = response.data.posts;
-                });
-            }
-        },
-        beforeMount(){
-            this.loadCategories();
+        call: function(category){
+            let config = {
+                headers: {
+                    'category': category
+                }
+            };
+            axios.post('/api/posts-by-filter-category', null, config).then(function(response){
+                postsLoadApp.posts = response.data.posts;
+            });
         }
-    });
+    },
+    beforeMount(){
+        this.loadCategories();
+    }
+});
 </script>
 
 <script>
-
 const postsLoadApp = new Vue({
     el: "#posts-container",
     data: {
@@ -71,6 +71,9 @@ const postsLoadApp = new Vue({
                 console.log(response);
                 postsLoadApp.posts = response.data.posts;
             });
+        },
+        popup: function(id){
+            
         },
         toggleLike: function(event, index){
             let postId = event.currentTarget.id.split('like')[1];
