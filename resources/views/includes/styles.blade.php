@@ -250,6 +250,11 @@
     height: 3px;
     width: 4px;
 }
+.disabled {
+    background-color: #cccccc;
+    color: #666666;
+    pointer-events: none;
+}
 
 /*----------*/
 
