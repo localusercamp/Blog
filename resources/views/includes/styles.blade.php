@@ -258,5 +258,16 @@
 
 /*----------*/
 
+/*---SHOW---*/
 
+.inline {
+    display: inline-block;
+}
+.main-text {
+    font-family: Roboto;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+/*----------*/
 </style>

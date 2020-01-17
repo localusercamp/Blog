@@ -177,7 +177,6 @@ const postsLoadApp = new Vue({
     },
     beforeMount() {
         this.loadPosts();
-        
     }
 });
 

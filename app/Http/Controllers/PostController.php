@@ -18,10 +18,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        return response()->json([
-            'name' => 'Abigail',
-            'state' => 'CA'
-        ]);
+        
     }
 
     /**
@@ -64,7 +61,11 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        //
+        $post = Post::with('user','users')->withCount('users')->find($id);
+        if($post)
+            return view('pages.post.show', compact('post'));
+        else
+            return abort(404, 'Page not found');
     }
 
     /**
