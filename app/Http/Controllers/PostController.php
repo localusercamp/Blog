@@ -120,7 +120,7 @@ class PostController extends Controller
             $this::isLiked($posts, Auth::user());
 
         return response()->json([
-            'posts' => $posts->toArray()
+            'posts' => $posts
         ]);
     }
     
