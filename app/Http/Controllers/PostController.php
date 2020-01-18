@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Category;
 use App\Post;
 use App\User;
+use App\Commentary;
 use Debugbar;
 
 class PostController extends Controller
@@ -61,7 +62,10 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        $post = Post::with('user','users')->withCount('users')->find($id);
+        $post = Post::with('user','users','commentaries','commentaries.user')
+            ->withCount('users','commentaries')
+            ->find($id);
+
         if($post)
             return view('pages.post.show', compact('post'));
         else
@@ -106,8 +110,6 @@ class PostController extends Controller
     {
         $posts = Post::with('user','users')->withCount('users')->get();
 
-        // $posts->find(2)->first_name = "some"; 
-
         if($request->header('filter'))
             $this::byFilter($posts, $request->header('filter'));
         
@@ -118,19 +120,8 @@ class PostController extends Controller
             $this::isLiked($posts, Auth::user());
 
         return response()->json([
-            'posts' => $posts
+            'posts' => $posts->toArray()
         ]);
-    }
-
-    public function isLiked(&$posts, $user)
-    {
-        foreach($posts as &$post){
-            if($post->users()->get()->contains($user))
-                $post->liked = true;
-            else
-                $post->liked = false;
-        }
-        unset($post);
     }
     
     public function byFilter(&$posts, $filter)
@@ -147,6 +138,17 @@ class PostController extends Controller
     {
         $category = Category::where('name', $category)->firstOrFail();
         $posts = $posts->where('category_id', $category->id);
+    }
+
+    public function isLiked(&$posts, $user)
+    {
+        foreach($posts as &$post){
+            if($post->users()->get()->contains($user))
+                $post->liked = true;
+            else
+                $post->liked = false;
+        }
+        unset($post);
     }
 
     public function like(Request $request)

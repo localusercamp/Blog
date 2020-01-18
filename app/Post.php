@@ -21,6 +21,12 @@ class Post extends Model
         return $this->belongsToMany('App\User', 'post_users', 'post_id', 'user_id');
     }
 
+    public function commentaries()
+    {
+        return $this->hasMany('App\Commentary');
+    }
+
+
     public function setLikedAttribute($value)
     {
         $this->attributes['liked'] = $value;

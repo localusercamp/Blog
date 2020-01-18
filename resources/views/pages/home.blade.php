@@ -9,9 +9,12 @@
 
 <div class="text-center">
     <div id="posts-container" class="posts-holder">
+        
+        @include('includes.modal.logreg')
+        
         <div v-for="(item, index) in showPosts" :id="item.id">
             <div class="post-container">
-                <p :class="{'post-title-lg' : item.title.length > 17, 'post-title' : item.title.length <= 17}" class="border-block"> @{{item.title}} </p>
+                <p :class="{'post-title-lg' : item.title.length > 17, 'post-title' : item.title.length <= 17}" v-on:click="showPost(item.id)" class="border-block"> @{{item.title}} </p>
                 <p class="post-user-email border-block"> @{{item.user.email}} </p>
                 <div :id="'like'+item.id" :class="{'red-like' : item.liked}" class="like-container border-block" v-on:click="toggleLike($event, index)">
                     <i class="like-icon fas fa-heart"></i>
@@ -32,9 +35,7 @@
 const categoryApp = new Vue({
     el: "#category-holder",
     data: {
-        categories: [],
-        choosen: "",
-        posts: [],
+        categories: []
     },
     methods:{
         loadCategories: function(){
@@ -49,7 +50,9 @@ const categoryApp = new Vue({
                 }
             };
             axios.post('/api/posts-by-filter-category', null, config).then(function(response){
+                console.log(response);
                 postsLoadApp.posts = response.data.posts;
+                postsLoadApp.paginationDefine();
             });
         }
     },
@@ -60,6 +63,7 @@ const categoryApp = new Vue({
 </script>
 
 <script>
+
 const postsLoadApp = new Vue({
     el: "#posts-container",
     data: {
@@ -69,6 +73,7 @@ const postsLoadApp = new Vue({
         postsPages: [],
         showPosts: [],
         pageIndex: 0,
+        showModal: false,
     },
     methods: {
         loadPosts: function(){
@@ -88,6 +93,9 @@ const postsLoadApp = new Vue({
             });
         },
         paginationDefine: function(){
+            this.postsPages = [];
+            this.showPosts = [];
+            this.pageIndex = 0;
             let N = Object.keys(this.posts).length / this.postsByPage >> 0;
             let Y = Object.keys(this.posts).length % this.postsByPage;
             for(let i = 0; i < N; i++){ // заполнение массива страниц
@@ -98,7 +106,7 @@ const postsLoadApp = new Vue({
                 this.postsPages.push(array);
             }
             let array = [];
-            for(let i = 0; i < Y; i++){ //заполнение хвоста
+            for(let i = 0; i < Y; i++){ // заплатка
                 array.push(this.posts[i+this.postsByPage*N]);
             }
             this.postsPages.push(array);
@@ -168,12 +176,23 @@ const postsLoadApp = new Vue({
                         postsLoadApp.posts[index].users_count += 1;
                         break;
                     case 'noLogin':
-                    
+                        postsLoadApp.showModal = true;
                         break;
                 }
             });
-            
-        }
+        },
+        showPost: function(id){
+            window.location.href = '/post/show/'+id;
+        },
+        showUser: function(id){
+            window.location.href = '/user/show/'+id;
+        },
+        redirectToLogin:  function(){
+            window.location.href = '/login';
+        },
+        redirectToRegister:  function(){
+            window.location.href = '/register';
+        },
     },
     beforeMount() {
         this.loadPosts();

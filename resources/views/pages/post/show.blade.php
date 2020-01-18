@@ -2,33 +2,33 @@
 @section('content')
 
 <div id="main" class="row reg-log-container">
-    <div id="show_form" class="create-post-app">
-        <conteiner v-if="post = {{ $post }}" class="login-container regform">
-                
-            <div class="input-block"> 
-                <label>Заголовок: @{{ post.title }} </label>
-            </div>
+    <div class="create-post-app">
+        <conteiner id="show_form" class="login-container regform">
+            <div v-if="post = {{ $post }}">
+                <div class="input-block"> 
+                    <label>Заголовок: @{{ post.title }} </label>
+                </div>
 
-            <div class="textarea-block"> 
-                <label>Текст поста:</label>
-            </div>
+                <div class="textarea-block"> 
+                    <label>Текст поста:</label>
+                </div>
 
-            <div class="input-block"> 
-                <textarea readonly class="textarea-post">@{{ post.text }}</textarea>
-            </div>
+                <div class="input-block"> 
+                    <textarea readonly class="textarea-post">@{{ post.text }}</textarea>
+                </div>
 
-            <div class="row main-text" style="padding:0 20px 0 20px">
-                <div class="inline" style="margin-right:auto">@{{ post.user.email }}</div>
-                <div id="like" :class="{'red-like' : post.liked}" class="like-container border-block" v-on:click="toggleLike($event)">
-                    <i class="like-icon fas fa-heart"></i>
-                    <div class="like-number"> @{{ likes }} </div>
+                <div class="row main-text" style="padding:0 20px 0 20px">
+                    <div class="inline" style="margin-right:auto">@{{ post.user.email }}</div>
+                    <div id="like" :class="{'red-like' : post.liked}" class="like-container border-block" v-on:click="toggleLike($event)">
+                        <i class="like-icon fas fa-heart"></i>
+                        <div class="like-number"> @{{ likes }} </div>
+                    </div>
                 </div>
             </div>
 
-            <div id="commentariesHolder" class="row main-text" style="padding:0 20px 0 20px">
-                
-            </div>
+        <div id="commentariesHolder" class="row main-text" style="padding:0 20px 0 20px">
             
+        </div>
         </conteiner>
             
     </div>
@@ -66,6 +66,18 @@
                     }
                 });
             }
+        }
+    });
+</script>
+
+<script>
+    const commentariesApp = new Vue({
+        el: '#commentariesHolder',
+        data: {
+            
+        },
+        methods: {
+
         }
     });
 </script>

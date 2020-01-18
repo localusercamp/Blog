@@ -6,10 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Commentary extends Model
 {
-    protected $table = 'blog_commentary';
-
-    public function post()
+    public function user()
     {
-        return $this->belongsTo('App\Post');
-    } 
+        return $this->belongsTo('App\User');
+    }
 }
