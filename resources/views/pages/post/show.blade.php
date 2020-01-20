@@ -26,8 +26,10 @@
                 </div>
             </div>
 
-        <div id="commentariesHolder" class="row main-text" style="padding:0 20px 0 20px">
-            
+        <div class="row main-text" style="padding:0 20px 0 20px">
+            <div class="input-block"> 
+                <textarea readonly class="textarea-comment"></textarea>
+            </div>
         </div>
         </conteiner>
             
@@ -65,19 +67,10 @@
                             break;
                     }
                 });
-            }
-        }
-    });
-</script>
+            },
+            loadCommentaries: function(){
 
-<script>
-    const commentariesApp = new Vue({
-        el: '#commentariesHolder',
-        data: {
-            
-        },
-        methods: {
-
+            },
         }
     });
 </script>

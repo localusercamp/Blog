@@ -268,6 +268,10 @@
     font-weight: bold;
     font-size: 15px;
 }
+.textarea-comment {
+    width: 100%;
+    min-height: 50px;
+}
 
 /*----------*/
 
