@@ -31,10 +31,15 @@
 
         <div class="row main-text" style="padding:20px 20px 0 20px">
             <div v-for="commentary in post.commentaries" class="commentary"> 
-                <div class="user-link"> 
-                    @{{commentary.user.email}} 
+                <div class="row extra-pad">
+                    <div class="user-link"> 
+                        @{{commentary.user.email}} 
+                    </div>
+                    <div class="date"> 
+                        @{{commentary.created_at}} 
+                    </div>
                 </div>
-                    <hr>
+                <hr>
                 <div> 
                     @{{commentary.text}} 
                 </div>
@@ -95,8 +100,8 @@
                         }
                     }
 
-                    axios.post('/', null, config).then(function(response){
-                        this.loadPost();
+                    axios.post('/commentary/store', null, config).then(function(response){
+                        showPost.loadPost();
                     });
                 }
             },

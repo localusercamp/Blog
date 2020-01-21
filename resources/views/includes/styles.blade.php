@@ -259,7 +259,11 @@
 /*----------*/
 
 /*---SHOW---*/
-
+.date {
+    font-family: Roboto;
+    font-size: 10px;
+    display:inline;
+}
 .inline {
     display: inline-block;
 }
@@ -363,6 +367,11 @@
 .user-link {
     cursor: pointer;
     text-decoration: underline;
+    display:inline;
+    margin-right: auto;
+}
+.extra-pad {
+    padding: 0 20px 0 20px;
 }
 
 </style>
