@@ -41,6 +41,8 @@ Route::post('/category/store', 'CategoryController@store');
 Route::get('/post/create', 'PostController@create');
 Route::post('/post/store', 'PostController@store');
 
+Route::post('/commentary/store', 'CommentaryController@store');
+
 Route::get('/post/show/{id}', 'PostController@show');
 
 
@@ -50,6 +52,7 @@ Route::get('/post/show/{id}', 'PostController@show');
 Route::post('/like', 'PostController@like');
 Route::post('/api/posts-by-filter-category', 'PostController@postsBy');
 Route::post('/api/posts-by-filter', 'PostController@postsBy');
+Route::post('/api/get-post', 'PostController@getPost');
 
 ////////////
 

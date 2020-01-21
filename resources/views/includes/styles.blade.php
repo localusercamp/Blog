@@ -272,6 +272,36 @@
     width: 100%;
     min-height: 50px;
 }
+.textarea-commentary {
+    width: 100%;
+    min-height: 50px;
+}
+.commentary {
+    border: solid 1px #dedede;
+    border-radius: 7px;
+    background-color: whitesmoke;
+    padding: 10px;
+    width: 100%;
+    display: block;
+    margin-bottom: 10px;
+}
+.addbutton {
+    padding: 3px 10px 0 10px;
+    display: inline-block;
+    justify-content: center;
+    align-items: center;
+    cursor:pointer;
+    border: 0;
+    outline: none;
+    border-radius: 5px;
+    font-family: Roboto;
+    font-weight: bold;
+    font-size: 15px;
+    color: whitesmoke;
+    height: 30px; 
+    background: rgb(5,166,18);
+    background: linear-gradient(0deg, rgba(5,166,18,1) 0%, rgba(0,255,8,1) 100%);
+}
 
 /*----------*/
 
@@ -328,4 +358,11 @@
 }
 
 /*-----------*/
+
+
+.user-link {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
 </style>

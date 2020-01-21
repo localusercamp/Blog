@@ -7,8 +7,6 @@ use Illuminate\Support\Facades\Auth;
 use App\Category;
 use App\Post;
 use App\User;
-use App\Commentary;
-use Debugbar;
 
 class PostController extends Controller
 {
@@ -60,16 +58,30 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show()
+    {
+        return view('pages.post.show');
+    }
+
+    public function getPost(Request $request)
     {
         $post = Post::with('user','users','commentaries','commentaries.user')
             ->withCount('users','commentaries')
-            ->find($id);
+            ->find((int)$request->header('postId'));
+            
+        if(!$post)
+            return;
 
-        if($post)
-            return view('pages.post.show', compact('post'));
-        else
-            return abort(404, 'Page not found');
+        if(Auth::check()){
+            if($post->users()->get()->contains(Auth::user()))
+                $post->liked = true;
+            else
+                $post->liked = false;
+        }
+
+        return response()->json([
+            'post' =>  $post
+        ]);
     }
 
     /**
