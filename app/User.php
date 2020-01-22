@@ -46,4 +46,19 @@ class User extends Authenticatable
     {
         return $this->belongsTo('App\Role');
     }
+
+    public function commentaries()
+    {
+        return $this->hasManyThrough('App\Commentary', 'App\Post');
+    }
+
+    public function setSelfAttribute($value)
+    {
+        $this->attributes['self'] = $value;
+    }
+
+    public function setUsersCountAttribute($value)
+    {
+        $this->attributes['users_count'] = $value;
+    }
 }

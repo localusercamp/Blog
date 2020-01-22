@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
+use App\User;
 
 class UserController extends Controller
 {
@@ -43,9 +46,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show()
     {
-        //
+        return view('pages.user.show');
     }
 
     /**
@@ -80,5 +83,32 @@ class UserController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function getUser(Request $request)
+    {
+        $user = User::with('posts','role','posts.commentaries')
+            ->withCount('posts','commentaries')
+            ->find((int)$request->header('userId'));
+
+        if(!$user)
+            return;
+
+        if(Auth::check()){
+            if(Auth::user()->id === $user->id)
+                $user->self = true;
+            else
+                $user->self = false;
+        }
+
+        $users_count = 0;
+        foreach($user->posts as $post){
+            $users_count += count($post->users);
+        }
+        $user->users_count = $users_count;
+
+        return response()->json([
+            'user' =>  $user
+        ]);
     }
 }

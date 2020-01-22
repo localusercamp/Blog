@@ -264,6 +264,29 @@
     font-size: 10px;
     display:inline;
 }
+.date-block {
+    font-family: Roboto;
+    font-size: 10px;
+    margin-bottom: 20px;
+}
+.user-block {
+    font-family: Roboto;
+    font-size: 25px;
+}
+.bubble-block {
+    display: inline-block;
+    border: solid 1px #dedede;
+    border-radius: 15px;
+    padding: 2px 10px 2px 10px;
+    color: #343a40;
+    cursor: pointer;
+}
+.bubble-block:hover {
+    background-color: #e0e0e0;
+}
+.bubble-posts-container {
+    display: inline;
+}
 .inline {
     display: inline-block;
 }
