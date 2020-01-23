@@ -87,8 +87,8 @@ class UserController extends Controller
 
     public function getUser(Request $request)
     {
-        $user = User::with('posts','role','posts.commentaries')
-            ->withCount('posts','commentaries')
+        $user = User::with('ownedPosts','role','posts.commentaries')
+            ->withCount('ownedPosts','commentaries')
             ->find((int)$request->header('userId'));
 
         if(!$user)

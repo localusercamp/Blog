@@ -15,7 +15,7 @@
         <div v-for="(item, index) in showPosts" :id="item.id">
             <div class="post-container">
                 <p :class="{'post-title-lg' : item.title.length > 17, 'post-title' : item.title.length <= 17}" v-on:click="showPost(item.id)" class="border-block"> @{{item.title}} </p>
-                <p class="post-user-email border-block"> @{{item.user.email}} </p>
+                <p v-on:click="showUser(item.user.id)" class="post-user-email border-block"> @{{item.user.email}} </p>
                 <div :id="'like'+item.id" :class="{'red-like' : item.liked}" class="like-container border-block" v-on:click="toggleLike($event, index)">
                     <i class="like-icon fas fa-heart"></i>
                     <div class="like-number"> @{{item.users_count}} </div>

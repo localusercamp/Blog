@@ -34,7 +34,8 @@ class LoginController extends Controller
         {
             return response()->json([
                 'IsLogged' => true,
-                'email' => Auth::getUser()->email
+                'email' => Auth::getUser()->email,
+                'id' => Auth::getUser()->id
             ]);
         }
 

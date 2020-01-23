@@ -6,7 +6,7 @@
         <conteiner id="show_form" class="login-container regform">
             <div>
                 <div class="user-block"> 
-                    <label>@{{ user.role }} @{{ user.email }}</label>
+                    <label>@{{ role }} @{{ user.email }}</label>
                 </div>
 
                 <div class="date-block"> 
@@ -14,7 +14,7 @@
                 </div>
 
                 <div class="textarea-block"> 
-                    <label>Всего постов: @{{ user.posts_count }}</label>
+                    <label>Всего постов: @{{ user.owned_posts_count }}</label>
                 </div>
 
                 <div class="textarea-block"> 
@@ -27,17 +27,17 @@
 
                 <div class="textarea-block"> 
                     <span v-if="!user.self">
-                        <label v-if="!posts">У пользователя пока нет записей</label>
+                        <label v-if="!user.owned_posts.length > 0">У пользователя пока нет постов</label>
                         <label v-else>Посты</label>
                     </span>
                     <span v-else>
-                        <label v-if="!posts">У вас пока нет записей</label>
+                        <label v-if="!user.owned_posts.length > 0">У вас пока нет постов</label>
                         <label v-else>Ваши посты</label>
                     </span>
                 </div>
 
                 <div class="bubble-posts-container">
-                    <div v-for="post in user.posts" class="bubble-block">
+                    <div v-for="post in user.owned_posts" v-on:click="showPost(post.id)" class="bubble-block">
                         @{{ post.title }}
                     </div>
                 </div>
@@ -51,7 +51,9 @@
     const showUser = new Vue({
         el: '#show_form',
         data: {
-            user: null
+            user: null,
+            role: null,
+            showModal: false
         },
         methods: {
             loadUser: function(){
@@ -63,18 +65,14 @@
                 }
                 axios.post('/api/get-user', null, config).then((response)=>{
                     this.user = response.data.user;
+                    if(this.user.role.name == 'blogger')
+                        this.role = 'Блоггер'
                     console.log(response);
                 });
             },
-            // showUser: function(id){
-            //     window.location.href = '/user/show/'+id;
-            // },
-            // redirectToLogin:  function(){
-            //     window.location.href = '/login';
-            // },
-            // redirectToRegister:  function(){
-            //     window.location.href = '/register';
-            // },
+            showPost: function(id){
+                window.location.href = '/post/show/'+id;
+            },
         },
         beforeMount() {
             this.loadUser();

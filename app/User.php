@@ -42,6 +42,11 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Post', 'post_users', 'user_id', 'post_id'); 
     }
 
+    public function ownedPosts()
+    {
+        return $this->hasMany('App\Post'); 
+    }
+
     public function role()
     {
         return $this->belongsTo('App\Role');

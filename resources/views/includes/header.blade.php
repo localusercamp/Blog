@@ -4,7 +4,7 @@
     
     <a class="navbar-brand mr-auto header-title" v-on:click="goHome">ВБлоге</a>
     
-    <a v-if="islogged" class="navbar-brand header-link" v-on:click="showUser"> @{{ user_email }} </a>
+    <a v-if="islogged" class="navbar-brand header-link" v-on:click="showUser(user_id)"> @{{ user_email }} </a>
     <a v-if="islogged" class="navbar-brand header-link" v-on:click="logout">Выйти</a>
     <a v-else class="navbar-brand header-link" v-on:click="login">Войти</a>
 
@@ -29,7 +29,8 @@
       el: '#navigationbar',
       data: {
         islogged: false,
-        user_email: null
+        user_email: null,
+        user_id: null
       },
       methods: {
         checkIsLogged: function(){
@@ -38,6 +39,7 @@
               if(response.data.IsLogged == true){
                 navbarVue.islogged = true;
                 navbarVue.user_email = response.data.email;
+                navbarVue.user_id = response.data.id;
               }
           });
         },
@@ -47,8 +49,8 @@
         login: function(){
           window.location.href = '/login';
         },
-        showUser: function(){
-          //get на страничку юзера
+        showUser: function(id){
+          window.location.href = '/user/show/'+id;
         },
         goHome: function(){
           window.location.href = '/home';

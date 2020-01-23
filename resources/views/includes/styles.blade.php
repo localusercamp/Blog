@@ -275,9 +275,10 @@
 }
 .bubble-block {
     display: inline-block;
-    border: solid 1px #dedede;
+    border: solid 1px black;
     border-radius: 15px;
     padding: 2px 10px 2px 10px;
+    margin: 5px;
     color: #343a40;
     cursor: pointer;
 }

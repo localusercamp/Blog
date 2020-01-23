@@ -21,7 +21,7 @@
                 </div>
 
                 <div class="row main-text" style="padding:0 20px 0 20px">
-                    <div class="inline" style="margin-right:auto">@{{ post.user.email }}</div>
+                    <div v-on:click="showUser(post.user.id)" class="inline" style="margin-right:auto">@{{ post.user.email }}</div>
                     <div id="like" :class="{'red-like' : post.liked}" class="like-container border-block" v-on:click="toggleLike($event)">
                         <i class="like-icon fas fa-heart"></i>
                         <div class="like-number"> @{{ post.users_count }} </div>
@@ -32,7 +32,7 @@
         <div class="row main-text" style="padding:20px 20px 0 20px">
             <div v-for="commentary in post.commentaries" class="commentary"> 
                 <div class="row extra-pad">
-                    <div class="user-link"> 
+                    <div v-on:click="showUser(commentary.user.id)" class="user-link"> 
                         @{{commentary.user.email}} 
                     </div>
                     <div class="date"> 
@@ -50,7 +50,7 @@
             <textarea v-model="commentary" class="textarea-commentary"></textarea>
         </div>
 
-        <div v-if="!isCreatingCommentary" v-on:click="isCreatingCommentary = true" class="text-center">
+        <div v-if="!isCreatingCommentary" v-on:click="startCreatingCommentary()" class="text-center">
             <div class="addbutton">
                 + Комментировать
             </div>
@@ -74,7 +74,7 @@
             post: null,
             showModal: false,
             isCreatingCommentary: false,
-            commentary: ""
+            commentary: "",
         },
         methods: {
             loadPost: function(){
@@ -140,10 +140,20 @@
             redirectToRegister:  function(){
                 window.location.href = '/register';
             },
+            startCreatingCommentary: function(){
+                axios.post('/check-if-logged').then((response) => { // проверка залогинен ли пользователь
+                    if(response.data.IsLogged == true){
+                        this.isCreatingCommentary = true;
+                    }
+                    else{
+                        this.showModal = true;
+                    }
+                });
+            }
         },
         beforeMount() {
             this.loadPost();
-        }
+        },
     });
 </script>
 
