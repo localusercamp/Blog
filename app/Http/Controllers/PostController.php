@@ -130,7 +130,7 @@ class PostController extends Controller
         
         if(Auth::check())
             $this::isLiked($posts, Auth::user());
-
+        
         return response()->json([
             'posts' =>  $posts
         ]);

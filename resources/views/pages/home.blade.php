@@ -5,8 +5,8 @@
     <div id="category-holder" class="category-holder">
         <div v-for="item in categories" v-on:click="call(item)" class="category-button"> @{{ item }} </div>
         <hr style="margin-left:20px">
-        <div v-on:click="changeFilter($event)" class="category-button">По лайкам</div>
-        <div v-on:click="changeFilter($event)" class="category-button">По дате</div>
+        <div v-on:click="changeFilter($event)" class="category-button">By date</div>
+        <div v-on:click="changeFilter($event)" class="category-button">By likes</div>
     </div>
 </div>
 
@@ -60,7 +60,14 @@ const categoryApp = new Vue({
             });
         },
         changeFilter: function(event){
-            postsLoadApp.filter = "fава";
+            
+            switch(event.target.innerText){
+                case 'By likes':
+                    postsLoadApp.filter = 'like';
+                    break;
+                default:
+                    postsLoadApp.filter = 'date';
+            }
             postsLoadApp.loadPosts();
         },
     },
@@ -90,9 +97,6 @@ const postsLoadApp = new Vue({
                     "filter": this.filter
                 }
             }
-            // axios.post("/api/posts-by-filter", null, config).then(function(response){
-            //     postsLoadApp.posts = response.data.posts;
-            // });
             axios.post('/api/posts-by-filter', null, config).then((response)=>{
                 postsLoadApp.posts = response.data.posts;
                 console.log(response);
