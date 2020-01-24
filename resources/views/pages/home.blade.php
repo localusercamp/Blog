@@ -4,6 +4,9 @@
 <div class="text-center">
     <div id="category-holder" class="category-holder">
         <div v-for="item in categories" v-on:click="call(item)" class="category-button"> @{{ item }} </div>
+        <hr style="margin-left:20px">
+        <div v-on:click="changeFilter($event)" class="category-button">По лайкам</div>
+        <div v-on:click="changeFilter($event)" class="category-button">По дате</div>
     </div>
 </div>
 
@@ -35,7 +38,8 @@
 const categoryApp = new Vue({
     el: "#category-holder",
     data: {
-        categories: []
+        categories: [],
+        filtername: null
     },
     methods:{
         loadCategories: function(){
@@ -54,7 +58,11 @@ const categoryApp = new Vue({
                 postsLoadApp.posts = response.data.posts;
                 postsLoadApp.paginationDefine();
             });
-        }
+        },
+        changeFilter: function(event){
+            postsLoadApp.filter = "fава";
+            postsLoadApp.loadPosts();
+        },
     },
     beforeMount(){
         this.loadCategories();
