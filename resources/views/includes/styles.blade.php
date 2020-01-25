@@ -259,6 +259,11 @@
 /*----------*/
 
 /*---SHOW---*/
+.post-date {
+    font-family: Roboto;
+    font-size: 10px;
+    margin-top: 10px;
+}
 .date {
     font-family: Roboto;
     font-size: 10px;

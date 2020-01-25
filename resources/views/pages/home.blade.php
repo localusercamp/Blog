@@ -19,7 +19,7 @@
             <div class="post-container">
                 <p :class="{'post-title-lg' : item.title.length > 17, 'post-title' : item.title.length <= 17}" v-on:click="showPost(item.id)" class="border-block"> @{{item.title}} </p>
                 <p v-on:click="showUser(item.user.id)" class="post-user-email border-block"> @{{item.user.email}} </p>
-                <div :id="'like'+item.id" :class="{'red-like' : item.liked}" class="like-container border-block" v-on:click="toggleLike($event, index)">
+                <div :id="'like'+item.id" :class="{'red-like' : item.liked || item.clicked}" class="like-container border-block" v-on:click="toggleLike($event, index)">
                     <i class="like-icon fas fa-heart"></i>
                     <div class="like-number"> @{{item.users_count}} </div>
                 </div>
@@ -92,6 +92,7 @@ const postsLoadApp = new Vue({
         showPosts: [],
         pageIndex: 0,
         showModal: false,
+        show: false
     },
     methods: {
         loadPosts: function(){
@@ -171,11 +172,12 @@ const postsLoadApp = new Vue({
             axios.post('/api/like', null, config).then(function(response){
                 switch(response.data.answer){
                     case 'wasLiked':
-                        clickedElement.classList.toggle('red-like');
+                        postsLoadApp.posts[index].clicked = false;
+                        postsLoadApp.posts[index].liked = false;
                         postsLoadApp.posts[index].users_count -= 1;
                         break;
                     case 'wasntLiked':
-                        clickedElement.classList.toggle('red-like');
+                        postsLoadApp.posts[index].clicked = true;
                         postsLoadApp.posts[index].users_count += 1;
                         break;
                     case 'noLogin':
@@ -183,8 +185,6 @@ const postsLoadApp = new Vue({
                         break;
                 }
             });
-        },
-        clearLikes: function(){
         },
         showPost: function(id){
             window.location.href = '/post/show/'+id;
