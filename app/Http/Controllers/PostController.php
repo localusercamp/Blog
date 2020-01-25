@@ -120,7 +120,7 @@ class PostController extends Controller
 
     public function postsBy(Request $request)
     {
-        $posts = Post::with('user','users')->withCount('users')->get();
+        $posts = Post::with('user','users')->withCount('users');
 
         if($request->header('filter'))
             $this::byFilter($posts, $request->header('filter'));
@@ -132,7 +132,7 @@ class PostController extends Controller
             $this::isLiked($posts, Auth::user());
         
         return response()->json([
-            'posts' =>  $posts
+            'posts' =>  $posts->get()
         ]);
     }
     
@@ -140,9 +140,9 @@ class PostController extends Controller
     {
         switch($filter){
             case 'like':
-                $posts = $posts->sortByDesc('users_count');
+                $posts = $posts->orderBy('users_count', 'desc');
             default:
-                $posts = $posts->sortByDesc('created_at');
+                $posts = $posts->orderBy('created_at', 'desc');
         }
     }
     
