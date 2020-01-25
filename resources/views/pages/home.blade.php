@@ -39,7 +39,8 @@ const categoryApp = new Vue({
     el: "#category-holder",
     data: {
         categories: [],
-        filtername: null
+        filtername: null,
+        category: null
     },
     methods:{
         loadCategories: function(){
@@ -48,9 +49,11 @@ const categoryApp = new Vue({
             });
         },
         call: function(category){
+            this.category = category;
             let config = {
                 headers: {
-                    'category': category
+                    'category': category,
+                    'filter': postsLoadApp.filter
                 }
             };
             axios.post('/api/posts-by-filter-category', null, config).then(function(response){
@@ -94,10 +97,14 @@ const postsLoadApp = new Vue({
         loadPosts: function(){
             let config = {
                 headers: {
-                    "filter": this.filter
+                    'filter': this.filter
                 }
             }
-            axios.post('/api/posts-by-filter', null, config).then((response)=>{
+            if(categoryApp.category){
+                config.headers['category'] = categoryApp.category;
+            }
+            
+            axios.post('/api/posts-by-filter-category', null, config).then((response)=>{
                 postsLoadApp.posts = response.data.posts;
                 console.log(response);
             }).then(()=>{
@@ -139,22 +146,6 @@ const postsLoadApp = new Vue({
             else
                 document.getElementById("prev-button").classList.remove("disabled");
         },
-        // nextPage: function(event){
-        //     this.pageIndex += 1;
-        //     this.updatePage();
-        //     if(this.pageIndex == this.postsPages.length -1)
-        //         this.ableToggle(event.currentTarget);
-        //     else if(this.pageIndex != 0)
-        //         this.ableToggle(document.getElementById("prev-button"));
-        // },
-        // prevPage: function(event){
-        //     this.pageIndex -= 1;
-        //     this.updatePage();
-        //     if(this.pageIndex == 0)
-        //         this.ableToggle(event.currentTarget);
-        //     else if(this.pageIndex != this.postsPages.length -1)
-        //         this.ableToggle(document.getElementById("next-button"));
-        // },
         scrollPage: function(event){
             let target = event.currentTarget;
             if(target.id == "next-button"){
@@ -177,7 +168,7 @@ const postsLoadApp = new Vue({
                 }
             }
 
-            axios.post('/like', null, config).then(function(response){
+            axios.post('/api/like', null, config).then(function(response){
                 switch(response.data.answer){
                     case 'wasLiked':
                         clickedElement.classList.toggle('red-like');
@@ -192,6 +183,8 @@ const postsLoadApp = new Vue({
                         break;
                 }
             });
+        },
+        clearLikes: function(){
         },
         showPost: function(id){
             window.location.href = '/post/show/'+id;

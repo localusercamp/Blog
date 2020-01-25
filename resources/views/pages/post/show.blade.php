@@ -115,7 +115,7 @@
                     }
                 }
 
-                axios.post('/like', null, config).then(function(response){
+                axios.post('/api/like', null, config).then(function(response){
                     switch(response.data.answer){
                         case 'wasLiked':
                             clickedElement.classList.toggle('red-like');

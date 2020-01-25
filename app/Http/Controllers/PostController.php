@@ -128,11 +128,13 @@ class PostController extends Controller
         if($request->header('category'))
             $this::byCategory($posts, $request->header('category'));
         
+        $posts = $posts->get();
+
         if(Auth::check())
             $this::isLiked($posts, Auth::user());
         
         return response()->json([
-            'posts' =>  $posts->get()
+            'posts' =>  $posts
         ]);
     }
     
