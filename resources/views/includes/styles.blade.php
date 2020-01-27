@@ -259,6 +259,24 @@
 /*----------*/
 
 /*---SHOW---*/
+.controlButton {
+    margin-bottom: 10px;
+    padding: 2px 5px 0 5px;
+    display: inline-block;
+    justify-content: center;
+    align-items: center;
+    cursor:pointer;
+    border: 0;
+    outline: none;
+    border-radius: 5px;
+    font-family: Roboto;
+    font-weight: bold;
+    font-size: 10px;
+    color: whitesmoke;
+    height: 20px; 
+    background: rgb(5,166,18);
+    background: linear-gradient(0deg, rgba(5,166,18,1) 0%, rgba(0,255,8,1) 100%);
+}
 .post-date {
     font-family: Roboto;
     font-size: 10px;

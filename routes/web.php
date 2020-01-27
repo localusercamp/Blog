@@ -6,6 +6,9 @@ Route::middleware('authguard.logged_only')->group(function () {
     Route::post('/post/store', 'PostController@store');
     Route::post('/commentary/store', 'CommentaryController@store');
     Route::post('/logout', 'LoginController@logout');
+    Route::get('/post/edit/{id}', function () {
+        return View::make('pages.post.edit');
+    });
 });
 
 // Доступны только админу
@@ -43,4 +46,6 @@ Route::prefix('api')->group(function () {
     Route::post('/posts-by-filter-category', 'PostController@postsBy');
     Route::post('/get-post', 'PostController@getPost');
     Route::post('/get-user', 'UserController@getUser');
+    Route::middleware('authguard.logged_only')
+        ->post('/get-current-user', 'UserController@getCurrentUser');
 });

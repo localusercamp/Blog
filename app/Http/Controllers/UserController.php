@@ -84,6 +84,13 @@ class UserController extends Controller
     {
         //
     }
+    
+    public function getCurrentUser(Request $request)
+    {
+        return response()->json([
+            'user' =>  Auth::user()
+        ]);
+    }
 
     public function getUser(Request $request)
     {

@@ -20,6 +20,14 @@
                     <textarea readonly class="textarea-post">@{{ post.text }}</textarea>
                 </div>
 
+                <div v-if="currentUser.id == post.user.id" v-on:click="deletePost()" class="controlButton">
+                    Удалить
+                </div>
+
+                <div v-if="currentUser.id == post.user.id" v-on:click="editPost()" class="controlButton">
+                    Изменить
+                </div>
+
                 <div class="row main-text" style="padding:0 20px 0 20px">
                     <div v-on:click="showUser(post.user.id)" class="inline" style="margin-right:auto">@{{ post.user.email }}</div>
                     <div id="like" :class="{'red-like' : post.liked}" class="like-container border-block" v-on:click="toggleLike($event)">
@@ -29,38 +37,38 @@
                 </div>
             </div>
 
-        <div class="row main-text" style="padding:20px 20px 0 20px">
-            <div v-for="commentary in post.commentaries" class="commentary"> 
-                <div class="row extra-pad">
-                    <div v-on:click="showUser(commentary.user.id)" class="user-link"> 
-                        @{{commentary.user.email}} 
+            <div class="row main-text" style="padding:20px 20px 0 20px">
+                <div v-for="commentary in post.commentaries" class="commentary"> 
+                    <div class="row extra-pad">
+                        <div v-on:click="showUser(commentary.user.id)" class="user-link"> 
+                            @{{commentary.user.email}} 
+                        </div>
+                        <div class="date"> 
+                            @{{commentary.created_at}} 
+                        </div>
                     </div>
-                    <div class="date"> 
-                        @{{commentary.created_at}} 
+                    <hr>
+                    <div> 
+                        @{{commentary.text}} 
                     </div>
                 </div>
-                <hr>
-                <div> 
-                    @{{commentary.text}} 
+            </div>
+
+            <div v-if="isCreatingCommentary" class="input-block"> 
+                <textarea v-model="commentary" class="textarea-commentary"></textarea>
+            </div>
+
+            <div v-if="!isCreatingCommentary" v-on:click="startCreatingCommentary()" class="text-center">
+                <div class="addbutton">
+                    + Комментировать
                 </div>
             </div>
-        </div>
 
-        <div v-if="isCreatingCommentary" class="input-block"> 
-            <textarea v-model="commentary" class="textarea-commentary"></textarea>
-        </div>
-
-        <div v-if="!isCreatingCommentary" v-on:click="startCreatingCommentary()" class="text-center">
-            <div class="addbutton">
-                + Комментировать
+            <div v-if="isCreatingCommentary" v-on:click="createCommentary()" class="text-center">
+                <div class="addbutton">
+                    Готово
+                </div>
             </div>
-        </div>
-
-        <div v-if="isCreatingCommentary" v-on:click="createCommentary()" class="text-center">
-            <div class="addbutton">
-                Готово
-            </div>
-        </div>
 
         </conteiner>
             
@@ -75,8 +83,25 @@
             showModal: false,
             isCreatingCommentary: false,
             commentary: "",
+            currentUser: null
         },
         methods: {
+            .deletePost: function(){
+                let config = {
+                    headers: {
+                        "postId": this.post.id
+                    }
+                }
+                axios.post('/post/delete/', null, config);
+            },
+            .editPost: function(){
+                window.location.href = '/post/edit/'+this.post.id;
+            },
+            getUser: function(){
+                axios.post('/api/get-current-user').then((response)=>{
+                    this.currentUser = response.data.user;
+                });
+            },
             loadPost: function(){
                 let currentURL = window.location.href.split('/');
                 let config = {
@@ -153,6 +178,7 @@
         },
         beforeMount() {
             this.loadPost();
+            this.getUser();
         },
     });
 </script>
