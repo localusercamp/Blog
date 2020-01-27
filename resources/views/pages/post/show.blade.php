@@ -86,15 +86,15 @@
             currentUser: null
         },
         methods: {
-            .deletePost: function(){
+            deletePost: function(){
                 let config = {
                     headers: {
-                        "postId": this.post.id
+                        "postId": this.post.id,
                     }
                 }
                 axios.post('/post/delete/', null, config);
             },
-            .editPost: function(){
+            editPost: function(){
                 window.location.href = '/post/edit/'+this.post.id;
             },
             getUser: function(){
