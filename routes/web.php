@@ -9,6 +9,7 @@ Route::middleware('authguard.logged_only')->group(function () {
     Route::get('/post/edit/{id}', function () {
         return View::make('pages.post.edit');
     });
+    Route::post('/post/destroy', 'PostController@destroy');
 });
 
 // Доступны только админу

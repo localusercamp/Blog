@@ -92,7 +92,9 @@
                         "postId": this.post.id,
                     }
                 }
-                axios.post('/post/delete/', null, config);
+                axios.post('/post/destroy', null, config).then(()=>{
+                    window.location.replace(document.referrer);
+                });
             },
             editPost: function(){
                 window.location.href = '/post/edit/'+this.post.id;
@@ -124,6 +126,8 @@
                             'text': this.commentary
                         }
                     }
+
+                    this.commentary = '';
 
                     axios.post('/commentary/store', null, config).then(function(response){
                         showPost.loadPost();

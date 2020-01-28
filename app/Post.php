@@ -6,6 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
 {
+    public static function boot() {
+        parent::boot();
+
+        static::deleting(function($post) {
+            $post->commentaries()->delete();
+            $post->users()->detach();
+        });
+    }
+
     public function user()
     {
         return $this->belongsTo('App\User');
