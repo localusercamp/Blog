@@ -8,7 +8,7 @@
 
                 <div class="input-block"> 
                     <label>Категория</label>
-                    <select >
+                    <select v-model="selected">
                         <option ref="category" v-for="item in categories" :value="item">@{{item}}</option>
                     </select>
                 </div>
@@ -23,7 +23,7 @@
                 </div>
                 <div class="input-block"> 
                     <textarea class="textarea-post" v-model="text">
-
+                        @{{text}}
                     </textarea>
                 </div>
         
@@ -33,7 +33,7 @@
                     </div>
                 </transition>
         
-                <div v-on:click="validate" class="acceptbutton">Создать</div>
+                <div v-on:click="validate" class="acceptbutton">Сохранить</div>
             </conteiner>
         </form>
     </div>
@@ -47,41 +47,58 @@
             categories: [],
             choosenCategory: "",
             title: "",
-            text: ""
+            text: "",
+            selected: null
         },
         methods: {
             loadCategories: function(){
-                axios.post('/api/categories-list').then(function(response){
+                axios.post('/api/categories-list').then((response)=>{
                     createPost.categories = response.data.categories;
                 });
             },
-            createPost: function(){
+            savePost: function(){
                 this.$refs['category'].forEach(function(item){
                     if(item.selected){
                         this.choosenCategory = item.text;
                     }
                 });
+                let currentURL = window.location.href.split('/');
                 let config = {
                     headers: {
                         'category': choosenCategory,
                         'title': createPost.title,
-                        'text': createPost.text
+                        'text': createPost.text,
+                        "postId": currentURL[currentURL.length-1]
                     }
                 };
-                axios.post('/post/store', null, config);
+                axios.post('/post/update', null, config);
             },
             validate: function(){
                 if(createPost.title.length > 0 && createPost.text.length > 0){
-                    this.createPost();
+                    this.savePost();
                     return true;
                 }
                 else{
                     this.noerror = false;
                 }
+            },
+            preloadValues: function(){
+                let currentURL = window.location.href.split('/');
+                let config = {
+                    headers: {
+                        "postId": currentURL[currentURL.length-1]
+                    }
+                }
+                axios.post('/api/get-post', null, config).then((response)=>{
+                    this.text =  response.data.post.text;
+                    this.title = response.data.post.title;
+                    this.selected = response.data.post.category.name;
+                });
             }
         },
         beforeMount(){
             this.loadCategories();
+            this.preloadValues();
         }
     });
 </script>

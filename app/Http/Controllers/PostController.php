@@ -40,9 +40,6 @@ class PostController extends Controller
     {
         $choosenCategory = $request->header('category');
         $choosenCategory = Category::where('name', $choosenCategory)->first();
-        if(!$choosenCategory){
-            return;
-        }
         $user = Auth::user();
         $post = new Post();
         $post->user()->associate($user);
@@ -65,7 +62,7 @@ class PostController extends Controller
 
     public function getPost(Request $request)
     {
-        $post = Post::with('user','users','commentaries','commentaries.user')
+        $post = Post::with('user','users','category','commentaries','commentaries.user')
             ->withCount('users','commentaries')
             ->find((int)$request->header('postId'));
             
@@ -92,7 +89,7 @@ class PostController extends Controller
      */
     public function edit(Request $request)
     {
-        
+        return view("pages.post.edit");
     }
 
     /**
@@ -102,9 +99,17 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $post = Post::find((int)$request->header('postId'));
+        $post->text = $request->header('text');
+        $post->title = $request->header('title');
+        $post->category()
+            ->associate(
+                Category::where('name', $request->header('category'))
+                ->firstOrFail()
+            );
+        $post->save();
     }
 
     /**

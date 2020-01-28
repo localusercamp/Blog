@@ -4,12 +4,15 @@
 Route::middleware('authguard.logged_only')->group(function () {
     Route::get('/post/create', 'PostController@create');
     Route::post('/post/store', 'PostController@store');
-    Route::post('/commentary/store', 'CommentaryController@store');
-    Route::post('/logout', 'LoginController@logout');
     Route::get('/post/edit/{id}', function () {
         return View::make('pages.post.edit');
     });
     Route::post('/post/destroy', 'PostController@destroy');
+    Route::post('/post/update', 'PostController@update');
+    Route::post('/commentary/store', 'CommentaryController@store');
+    Route::post('/commentary/destroy', 'CommentaryController@destroy');
+    Route::post('/commentary/update', 'CommentaryController@destroy');
+    Route::post('/logout', 'LoginController@logout');
 });
 
 // Доступны только админу

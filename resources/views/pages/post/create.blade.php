@@ -68,12 +68,13 @@
                         'text': createPost.text
                     }
                 };
-                axios.post('/post/store', null, config);
+                axios.post('/post/store', null, config).then(()=>{
+                    window.location.href = '/home';
+                });
             },
             validate: function(){
                 if(createPost.title.length > 0 && createPost.text.length > 0){
                     this.createPost();
-                    return true;
                 }
                 else{
                     this.noerror = false;

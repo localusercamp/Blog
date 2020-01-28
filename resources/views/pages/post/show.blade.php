@@ -52,6 +52,13 @@
                         @{{commentary.text}} 
                     </div>
                 </div>
+                <div v-if="currentUser.id == post.user.id" v-on:click="deleteCommentary()" class="controlButton" style="margin-right:10px">
+                    Удалить
+                </div>
+
+                <div v-if="currentUser.id == post.user.id" v-on:click="editCommentary()" class="controlButton">
+                    Изменить
+                </div>
             </div>
 
             <div v-if="isCreatingCommentary" class="input-block"> 
@@ -86,6 +93,19 @@
             currentUser: null
         },
         methods: {
+            deleteCommentary: function(){
+                let config = {
+                    headers: {
+                        "postId": this.post.id,
+                    }
+                }
+                axios.post('/commentary/store', null, config).then(function(response){
+                    showPost.loadPost();
+                });
+            },
+            ediCommentary: function(){
+                window.location.href = '/post/edit/'+this.post.id;
+            },
             deletePost: function(){
                 let config = {
                     headers: {
