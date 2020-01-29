@@ -10,81 +10,20 @@ use App\User;
 class UserController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Возварщает представление пользователя
      *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  Request
      */
     public function show()
     {
         return view('pages.user.show');
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
     
+    /**
+     * Возварщает текущего пользователя
+     *
+     * @param  Request
+     */
     public function getCurrentUser(Request $request)
     {
         return response()->json([
@@ -92,6 +31,12 @@ class UserController extends Controller
         ]);
     }
 
+    /**
+     * Возварщает пользователя по id
+     *
+     * @param  Request
+     * @return JSON
+     */
     public function getUser(Request $request)
     {
         $user = User::with('ownedPosts','role','posts.commentaries')
