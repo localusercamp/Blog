@@ -29,7 +29,9 @@ class RegistrationController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return abort(404);
+            return response()->json([
+                'answer' =>  'badEmail'
+            ]);
         }
 
         $role = Role::where('name', 'blogger')->first();

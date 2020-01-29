@@ -7,20 +7,9 @@
     <a v-if="islogged" class="navbar-brand header-link" v-on:click="showUser(user_id)"> @{{ user_email }} </a>
     <a v-if="islogged" class="navbar-brand header-link text-center" v-on:click="createPost">Пост<br>+</a>
     <a v-if="islogged" class="navbar-brand header-link" v-on:click="logout">Выйти</a>
-    <a v-else class="navbar-brand header-link" v-on:click="login">Войти</a>
-
-    <!-- Links -->
-    {{-- <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link" href="#">Link 1</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Link 2</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Link 3</a>
-      </li>
-    </ul> --}}
+    <a v-else class="navbar-brand header-link" v-on:click="register">Зарегистрироваться</a>
+    <a v-if="!islogged" class="navbar-brand header-link" v-on:click="login">Войти</a>
+    
   </nav>
   
 </header>
@@ -35,7 +24,7 @@
       },
       methods: {
         checkIsLogged: function(){
-          axios.post('/check-if-logged').then(function(response){ // проверка залогинен ли пользователь
+          axios.post('/check-if-logged').then(function(response){
               console.log(response);
               if(response.data.IsLogged == true){
                 navbarVue.islogged = true;
@@ -49,6 +38,9 @@
         },
         logout: function(){
           axios.post('/logout').then(window.location.href = '/login');
+        },
+        register: function(){
+          window.location.href = '/register';
         },
         login: function(){
           window.location.href = '/login';

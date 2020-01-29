@@ -21,6 +21,12 @@
                     </div>
                 </transition>
 
+                <transition name="fade">
+                    <div class="errorholder" v-if="showEmailError" style="text-align: center;">
+                        <div style="color: red;">Этот адрес электронной почты уже используется</div>
+                    </div>
+                </transition>
+
                 <div v-on:click="validate" class="acceptbutton">Зарегистрироваться</div>
             </conteiner>
         </form>
@@ -33,7 +39,8 @@
         data: {
             noerror: true,
             email: null,
-            password: ""
+            password: "",
+            showEmailError: false
         },
         methods: {
             validate: function(e){
@@ -47,17 +54,25 @@
                 ){ 
                     this.noerror = false;
                 }
-                else{ // если валидация прошла успешно
+                else{ 
                     let config = {
                         headers:{
                             'email': this.email,
                             'password': this.password
                         }
                     }
-                    axios.post('/register', null, config).then(function(response){ // post на добавление пользователя
+                    axios.post('/register', null, config).then((response)=>{
+                        console.log(response);
+                        if(response.data['answer'] == 'badEmail')
+                            this.showEmailError = true;
+                        else{
+                            this.showEmailError = false;
+                            axios.post('/login', null, config).then(()=>{
+                                window.location.href = '/home'
+                            });
+                        }
                     })
                     this.password = "";
-                    return true;
                 }
                 
                 e.preventDefault();
