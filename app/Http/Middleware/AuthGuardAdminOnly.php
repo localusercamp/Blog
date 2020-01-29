@@ -6,13 +6,14 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Closure;
 
+/**
+ * Пропускает только админа
+ */
 class AuthGuardAdminOnly
 {
     /**
-     * Handle an incoming request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param  Request
+     * @param  Closure
      * @return mixed
      */
     public function handle(Request $request, Closure $next)

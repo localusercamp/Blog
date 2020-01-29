@@ -10,39 +10,22 @@ class User extends Authenticatable
 {
     use Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
         'email', 'password',
     ];
-
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
     protected $hidden = [
         'password', 'remember_token',
     ];
-
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
 
-    public function posts() // связь с таблицей post_user
+    public function posts() // много ко многим с таблицей постов
     {
         return $this->belongsToMany('App\Post', 'post_users', 'user_id', 'post_id'); 
     }
 
-    public function ownedPosts()
+    public function ownedPosts() // все посты пользователя
     {
         return $this->hasMany('App\Post'); 
     }
@@ -57,12 +40,12 @@ class User extends Authenticatable
         return $this->hasManyThrough('App\Commentary', 'App\Post');
     }
 
-    public function setSelfAttribute($value)
+    public function setSelfAttribute($value) // атрибут для фронта
     {
         $this->attributes['self'] = $value;
     }
 
-    public function setUsersCountAttribute($value)
+    public function setUsersCountAttribute($value) // атрибут для фронта
     {
         $this->attributes['users_count'] = $value;
     }

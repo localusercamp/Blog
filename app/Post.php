@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
 {
+    /**
+     * Каскадно удалить коментарии и лайки
+     */
     public static function boot() {
         parent::boot();
 
@@ -25,7 +28,7 @@ class Post extends Model
         return $this->belongsTo('App\Category');
     }
 
-    public function users() // связь с таблицей post_user
+    public function users() // много ко многим с таблицей пользователей (лайки)
     {
         return $this->belongsToMany('App\User', 'post_users', 'post_id', 'user_id');
     }
@@ -36,7 +39,7 @@ class Post extends Model
     }
 
 
-    public function setLikedAttribute($value)
+    public function setLikedAttribute($value) // добавление атрибута (для фронта)
     {
         $this->attributes['liked'] = $value;
     }
