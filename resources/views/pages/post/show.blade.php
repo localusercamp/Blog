@@ -51,29 +51,48 @@
                     <div> 
                         @{{commentary.text}} 
                     </div>
+                    <div v-if="currentUser.id == commentary.user.id" v-on:click="deleteCommentary(commentary)" class="controlButton" style="margin-right:10px">
+                        Удалить
+                    </div>
+    
+                    <div v-if="currentUser.id == commentary.user.id && !isCreatingCommentary" v-on:click="editCommentary(commentary)" class="controlButton">
+                        Изменить
+                    </div>
                 </div>
-                <div v-if="currentUser.id == post.user.id" v-on:click="deleteCommentary()" class="controlButton" style="margin-right:10px">
-                    Удалить
-                </div>
-
-                <div v-if="currentUser.id == post.user.id" v-on:click="editCommentary()" class="controlButton">
-                    Изменить
-                </div>
+                
             </div>
 
-            <div v-if="isCreatingCommentary" class="input-block"> 
+            <div v-if="isCreatingCommentary || isEditingCommentary" class="input-block"> 
                 <textarea v-model="commentary" class="textarea-commentary"></textarea>
             </div>
 
-            <div v-if="!isCreatingCommentary" v-on:click="startCreatingCommentary()" class="text-center">
+            <div v-if="isEditingCommentary" v-on:click="isEditingCommentary=false" class="text-center" style="margin-bottom:10px">
+                <div class="addbutton">
+                    Назад
+                </div>
+            </div>
+
+            <div v-if="!isCreatingCommentary && !isEditingCommentary" v-on:click="startCreatingCommentary()" class="text-center">
                 <div class="addbutton">
                     + Комментировать
+                </div>
+            </div>
+
+            <div v-if="isCreatingCommentary" v-on:click="isCreatingCommentary=false" class="text-center" style="margin-bottom:10px">
+                <div class="addbutton">
+                    Назад
                 </div>
             </div>
 
             <div v-if="isCreatingCommentary" v-on:click="createCommentary()" class="text-center">
                 <div class="addbutton">
                     Готово
+                </div>
+            </div>
+
+            <div v-if="isEditingCommentary" v-on:click="updateCommentary()" class="text-center">
+                <div class="addbutton">
+                    Сохранить
                 </div>
             </div>
 
@@ -90,21 +109,38 @@
             showModal: false,
             isCreatingCommentary: false,
             commentary: "",
-            currentUser: null
+            currentUser: null,
+            isEditingCommentary: false,
+            commentaryId: null
         },
         methods: {
-            deleteCommentary: function(){
+            deleteCommentary: function(commentary){
                 let config = {
                     headers: {
-                        "postId": this.post.id,
+                        "commentaryId": commentary.id
                     }
                 }
-                axios.post('/commentary/store', null, config).then(function(response){
+                axios.post('/commentary/destroy', null, config).then(function(response){
                     showPost.loadPost();
                 });
             },
-            ediCommentary: function(){
-                window.location.href = '/post/edit/'+this.post.id;
+            editCommentary: function(commentary){
+                this.commentary = commentary.text;
+                this.isEditingCommentary = true;
+                this.commentaryId = commentary.id;
+            },
+            updateCommentary: function(){
+                let config = {
+                    headers: {
+                        'commentaryId': this.commentaryId,
+                        'text': this.commentary
+                    }
+                }
+                this.isCreatingCommentary = false;
+                this.isEditingCommentary = false;
+                axios.post('/commentary/update', null, config).then(function(response){
+                    showPost.loadPost();
+                });
             },
             deletePost: function(){
                 let config = {

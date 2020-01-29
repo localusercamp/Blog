@@ -54,18 +54,13 @@
                             'password': this.password
                         }
                     };
-                    axios.post('/login', null, config).then(()=>{}).then(()=>{
-                        axios.post('/check-if-logged').then((secondPost) => {
-                            if(secondPost.data.IsLogged == true){
-                                window.location.href = '/home';
-                            }
-                            else{
-                                app.noerror = false;
-                            }
-                        })
-                    })
+                    axios.post('/login', null, config).then((response)=>{
+                        if(response.data.IsLogged == true)
+                            window.location.href = '/home';
+                        else
+                            app.noerror = false;
+                    });
                     this.password = "";
-                    return true;
                 }
                 
                 e.preventDefault();

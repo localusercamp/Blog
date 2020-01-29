@@ -4,14 +4,12 @@
 Route::middleware('authguard.logged_only')->group(function () {
     Route::get('/post/create', 'PostController@create');
     Route::post('/post/store', 'PostController@store');
-    Route::get('/post/edit/{id}', function () {
-        return View::make('pages.post.edit');
-    });
+    Route::get('/post/edit/{id}', 'PostController@edit');
     Route::post('/post/destroy', 'PostController@destroy');
     Route::post('/post/update', 'PostController@update');
     Route::post('/commentary/store', 'CommentaryController@store');
     Route::post('/commentary/destroy', 'CommentaryController@destroy');
-    Route::post('/commentary/update', 'CommentaryController@destroy');
+    Route::post('/commentary/update', 'CommentaryController@update');
     Route::post('/logout', 'LoginController@logout');
 });
 

@@ -14,6 +14,7 @@ class RegistrationController extends Controller
     /** 
      * Создание нового пользователя
      * 
+     * @param Request
     */
     public function create(Request $request)
     {
@@ -27,8 +28,8 @@ class RegistrationController extends Controller
             'password' => 'required|min:6'
         ]);
 
-        if ($validator->fails()) { // если валидация не прошла
-            return abort(404);     // КОСТЫЛЬ: при вводе мыла котрое уже есть выкнет 404 (и то вряд ли, скорее всего просто сломается)
+        if ($validator->fails()) {
+            return abort(404);
         }
 
         $role = Role::where('name', 'blogger')->first();

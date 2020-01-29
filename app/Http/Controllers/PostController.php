@@ -11,19 +11,9 @@ use App\User;
 class PostController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Возвращает представление создания поста
      *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return View
      */
     public function create()
     {
@@ -31,10 +21,9 @@ class PostController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Сохраняет пост в базе
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  Request
      */
     public function store(Request $request)
     {
@@ -50,16 +39,20 @@ class PostController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Возвращает представление поста
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return View
      */
     public function show()
     {
         return view('pages.post.show');
     }
 
+    /**
+     * Возвращает пост
+     *
+     * @return JSON
+     */
     public function getPost(Request $request)
     {
         $post = Post::with('user','users','category','commentaries','commentaries.user')
@@ -82,22 +75,21 @@ class PostController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Возвращает представление изменения поста
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  Request
+     * @return View
      */
-    public function edit(Request $request)
+    public function edit(Request $request, $id)
     {
-        return view("pages.post.edit");
+        if(Auth::user()->posts->contains($id))
+            return view("pages.post.edit");
+        return abort('404');
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  Request
      */
     public function update(Request $request)
     {
@@ -113,10 +105,8 @@ class PostController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  Request
+     * @return Redirect
      */
     public function destroy(Request $request)
     {
@@ -125,6 +115,12 @@ class PostController extends Controller
         return redirect('/home');
     }
 
+    /**
+     * Сортировка постов по категории и фильтру
+     * 
+     * @param  Request
+     * @return JSON
+     */
     public function postsBy(Request $request)
     {
         $posts = Post::with('user','users')->withCount('users');
@@ -172,6 +168,14 @@ class PostController extends Controller
         unset($post);
     }
 
+    /**
+     * Добавляет или удаляет пользователя
+     * из списка пользователей, которым
+     * понравился пост (лайк/анлайк)
+     * 
+     * @param  Request
+     * @return JSON
+     */
     public function like(Request $request)
     {
         if(Auth::check()){
