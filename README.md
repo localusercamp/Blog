@@ -7,9 +7,24 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
 </p>
 
-## About Laravel
+<p align="center"> CRUD-БЛОГ </p>
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Что использовал
+
+Фронт реализовал с помощью:
+- **HTML разметки**
+- **Vue.js**
+- **Стандартных CSS-стилей**
+- **Капля чистого JS'а**
+
+По поводу реализации фронтана - программировал на Vue первый раз, по гайдам и части документации. В итоге на 3/4 проекта узнал, что фронт на Vue реализуется через роутеры...
+Конечно же переелывать ничего не стал, и как итог каждый компонент на каждом HTML шаблоне =)
+
+Бэк реализовал с помощью Larevel 6.x
+
+## Что реализовано
+
+- **CRUD**
 
 - [Simple, fast routing engine](https://laravel.com/docs/routing).
 - [Powerful dependency injection container](https://laravel.com/docs/container).
