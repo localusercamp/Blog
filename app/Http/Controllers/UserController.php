@@ -27,7 +27,7 @@ class UserController extends Controller
     public function getCurrentUser(Request $request)
     {
         return response()->json([
-            'user' =>  Auth::user()
+            'user' =>  User::with('role')->find(Auth::user()->id)
         ]);
     }
 

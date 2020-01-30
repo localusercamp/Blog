@@ -5,6 +5,8 @@
     <a class="navbar-brand mr-auto header-title" v-on:click="goHome">ВБлоге</a>
     
     <a v-if="islogged" class="navbar-brand header-link" v-on:click="showUser(user_id)"> @{{ user_email }} </a>
+    <a v-if="isAdmin" class="navbar-brand header-link text-center" v-on:click="createRole">Роль<br>+</a>
+    <a v-if="isAdmin" class="navbar-brand header-link text-center" v-on:click="createCategory">Категория<br>+</a>
     <a v-if="islogged" class="navbar-brand header-link text-center" v-on:click="createPost">Пост<br>+</a>
     <a v-if="islogged" class="navbar-brand header-link" v-on:click="logout">Выйти</a>
     <a v-else class="navbar-brand header-link" v-on:click="register">Зарегистрироваться</a>
@@ -20,7 +22,8 @@
       data: {
         islogged: false,
         user_email: null,
-        user_id: null
+        user_id: null,
+        isAdmin: false
       },
       methods: {
         checkIsLogged: function(){
@@ -30,11 +33,19 @@
                 navbarVue.islogged = true;
                 navbarVue.user_email = response.data.email;
                 navbarVue.user_id = response.data.id;
+                if(response.data.role == 'admin') 
+                  navbarVue.isAdmin = true;
               }
           });
         },
         createPost: function(){
           window.location.href = '/post/create';
+        },
+        createRole: function(){
+          window.location.href = '/role/create';
+        },
+        createCategory: function(){
+          window.location.href = '/category/create';
         },
         logout: function(){
           axios.post('/logout').then(window.location.href = '/login');

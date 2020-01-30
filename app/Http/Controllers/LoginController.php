@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 
+use App\User;
+
 class LoginController extends Controller
 {   
     /**
@@ -54,7 +56,8 @@ class LoginController extends Controller
             return response()->json([
                 'IsLogged' => true,
                 'email' => Auth::getUser()->email,
-                'id' => Auth::getUser()->id
+                'id' => Auth::getUser()->id,
+                'role' => User::with('role')->find(Auth::user()->id)->role->name
             ]);
         }
 

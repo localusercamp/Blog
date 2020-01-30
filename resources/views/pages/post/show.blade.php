@@ -20,7 +20,7 @@
                     <textarea readonly class="textarea-post">@{{ post.text }}</textarea>
                 </div>
 
-                <div v-if="currentUser.id == post.user.id" v-on:click="deletePost()" class="controlButton">
+                <div v-if="currentUser.id == post.user.id || isAdmin" v-on:click="deletePost()" class="controlButton">
                     Удалить
                 </div>
 
@@ -51,7 +51,7 @@
                     <div> 
                         @{{commentary.text}} 
                     </div>
-                    <div v-if="currentUser.id == commentary.user.id" v-on:click="deleteCommentary(commentary)" class="controlButton" style="margin-right:10px">
+                    <div v-if="currentUser.id == commentary.user.id || isAdmin" v-on:click="deleteCommentary(commentary)" class="controlButton" style="margin-right:10px">
                         Удалить
                     </div>
     
@@ -111,7 +111,8 @@
             commentary: "",
             currentUser: null,
             isEditingCommentary: false,
-            commentaryId: null
+            commentaryId: null,
+            isAdmin: false
         },
         methods: {
             deleteCommentary: function(commentary){
@@ -158,6 +159,9 @@
             getUser: function(){
                 axios.post('/api/get-current-user').then((response)=>{
                     this.currentUser = response.data.user;
+                    console.log(response.data);
+                    if(response.data.user.role.name == 'admin')
+                        this.isAdmin = true;
                 });
             },
             loadPost: function(){
@@ -169,7 +173,6 @@
                 }
                 axios.post('/api/get-post', null, config).then((response)=>{
                     this.post = response.data.post;
-                    console.log(response);
                 });
             },
             createCommentary: function(){
