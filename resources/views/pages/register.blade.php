@@ -61,13 +61,19 @@
                             'password': this.password
                         }
                     }
+                    var badEmail = false;
                     axios.post('/register', null, config).then((response)=>{
                         console.log(response);
-                        if(response.data['answer'] == 'badEmail')
+                        if(response.data['answer'] == 'badEmail'){
                             this.showEmailError = true;
+                            badEmail = true;
+                        }
                         else{
                             this.showEmailError = false;
-                            axios.post('/login', null, config).then(()=>{
+                            badEmail = false;
+                        }
+                        if(!badEmail){
+                            axios.post('/login', null, config).then((response)=>{
                                 window.location.href = '/home'
                             });
                         }

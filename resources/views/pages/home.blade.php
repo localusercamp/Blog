@@ -57,7 +57,6 @@ const categoryApp = new Vue({
                 }
             };
             axios.post('/api/posts-by-filter-category', null, config).then(function(response){
-                console.log(response);
                 postsLoadApp.posts = response.data.posts;
                 postsLoadApp.paginationDefine();
             });
@@ -107,7 +106,6 @@ const postsLoadApp = new Vue({
             
             axios.post('/api/posts-by-filter-category', null, config).then((response)=>{
                 postsLoadApp.posts = response.data.posts;
-                console.log(response);
             }).then(()=>{
                 this.paginationDefine();
             });
